@@ -82,10 +82,14 @@ public class ExpenseRepositoryDB implements ExpenseRepository {
     }
 
     @Override
+    @Transactional
     public boolean deleteExpense(int id) {
         // Also fix fund here
 
         try {
+            final String GET_EXPENSE_BY_ID = "SELECT * FROM `Expense` WHERE `id` = ?;";
+            jdbc.queryForObject(GET_EXPENSE_BY_ID, new ExpenseMapper(), id);
+
             final String DELETE_EXPENSE_BY_ID = "DELETE FROM `expense` WHERE `id` = ?;";
             jdbc.update(DELETE_EXPENSE_BY_ID, id);
 
