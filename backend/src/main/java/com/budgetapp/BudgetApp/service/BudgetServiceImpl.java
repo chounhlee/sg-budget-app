@@ -1,11 +1,13 @@
 package com.budgetapp.BudgetApp.service;
 
+import com.budgetapp.BudgetApp.controller.request.AddExpenseRequest;
 import com.budgetapp.BudgetApp.controller.request.DeleteExpenseRequest;
+import com.budgetapp.BudgetApp.controller.request.UpdateExpenseRequest;
 import com.budgetapp.BudgetApp.model.Expense;
 import com.budgetapp.BudgetApp.repository.ExpenseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -24,15 +26,32 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Expense createExpense(Expense expense) {
+    public Expense addExpense(AddExpenseRequest addExpenseRequest) {
+        Expense expense = new Expense();
+        expense.setUsername(addExpenseRequest.getUsername());
+        expense.setAmount(addExpenseRequest.getAmount());
+        expense.setExpenseName(addExpenseRequest.getExpenseName());
+        expense.setRemaining(addExpenseRequest.getAmount());
+        expense.setMonthly(addExpenseRequest.isMonthly());
+        expense.setAllocated(BigDecimal.ZERO);
+        expense.setDateUpdated(addExpenseRequest.getMonth());
+
         return expenseRepository.addExpense(expense);
     }
 
     @Override
-    public Expense updateExpense(Expense expense) {
+    public boolean updateExpense(UpdateExpenseRequest updateExpenseRequest) {
+        Expense expense = new Expense();
+        expense.setId(updateExpenseRequest.getExpenseId());
+        expense.setUsername(updateExpenseRequest.getUsername());
+        expense.setAmount(updateExpenseRequest.getAmount());
+        expense.setExpenseName(updateExpenseRequest.getExpenseName());
+        expense.setMonthly(updateExpenseRequest.isMonthly());
+        expense.setAllocated(updateExpenseRequest.getAllocated());
+        expense.setDateUpdated(updateExpenseRequest.getMonth());
 
         // Need to calculate correctly
-        expense.setRemaining(expense.getAmount());
+        expense.setRemaining(updateExpenseRequest.getAmount());
 
         // Update user fund
 

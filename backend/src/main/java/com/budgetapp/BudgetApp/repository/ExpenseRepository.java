@@ -7,7 +7,7 @@ import java.util.List;
 public interface ExpenseRepository {
     List<Expense> getExpenses(String username);
     Expense addExpense(Expense expense);
-    Expense updateExpense(Expense expense);
+    boolean updateExpense(Expense expense);
     boolean deleteExpense(int id);
 
 }

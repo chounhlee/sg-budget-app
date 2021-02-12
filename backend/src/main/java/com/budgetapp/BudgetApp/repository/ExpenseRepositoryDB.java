@@ -58,7 +58,7 @@ public class ExpenseRepositoryDB implements ExpenseRepository {
 
     @Override
     @Transactional
-    public Expense updateExpense(Expense expense) {
+    public boolean updateExpense(Expense expense) {
         try {
             final String UPDATE_EXPENSE_BY_ID_AND_USERNAME =
                     "UPDATE `expense` SET " +
@@ -75,11 +75,9 @@ public class ExpenseRepositoryDB implements ExpenseRepository {
                     expense.getRemaining(),
                     expense.getId(),
                     expense.getUsername());
-
-            return expense;
-
+            return true;
         } catch (DataAccessException ex) {
-            return null;
+            return false;
         }
     }
 
