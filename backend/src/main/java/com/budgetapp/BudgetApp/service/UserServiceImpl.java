@@ -1,6 +1,7 @@
 package com.budgetapp.BudgetApp.service;
 
 import com.budgetapp.BudgetApp.controller.request.UpdateIncomeAndFundRequest;
+import com.budgetapp.BudgetApp.controller.request.UserLoginRequest;
 import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
 import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.repository.UserRepository;
@@ -18,9 +19,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String userName, String userPassword) {
-        User user = userRepository.getUserByUsername(userName);
-        if (!user.getUserPassword().equals(userPassword)) {
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userRepository.getUserByUsername(userLoginRequest.getUsername());
+
+        if (!user.getUserPassword().equals(userLoginRequest.getPassword())) {
             return null;
         }
 

@@ -47,8 +47,8 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> loginUser(@RequestBody User userRawData) {
-        User user = userService.login(userRawData.getUsername(), userRawData.getUserPassword());
+    public ResponseEntity<Object> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
+        User user = userService.login(userLoginRequest);
 
         if (user == null) {
             status = HttpStatus.UNAUTHORIZED;
