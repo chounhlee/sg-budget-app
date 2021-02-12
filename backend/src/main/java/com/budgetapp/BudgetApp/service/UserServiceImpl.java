@@ -1,5 +1,7 @@
 package com.budgetapp.BudgetApp.service;
 
+import com.budgetapp.BudgetApp.controller.request.UpdateIncomeAndFundRequest;
+import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
 import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +30,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) {
         return userRepository.createUser(user);
+    }
+
+    @Override
+    public UserIncomeAndExpenseDto getIncomeAndFund(String username) {
+        User user = userRepository.getIncomeAndFund(username);
+
+        if (user == null) {
+            return null;
+        } else {
+            UserIncomeAndExpenseDto userIncomeAndExpenseDto = new UserIncomeAndExpenseDto();
+            userIncomeAndExpenseDto.setMonthlyIncome(user.getMonthlyIncome());
+            userIncomeAndExpenseDto.setAvailableFund(user.getAvailableFund());
+            return userIncomeAndExpenseDto;
+        }
+    }
+
+    @Override
+    public boolean updateIncomeAndFund(UpdateIncomeAndFundRequest updateIncomeAndFundRequest) {
+        return userRepository.updateIncomeAndFund(updateIncomeAndFundRequest);
     }
 }

@@ -1,5 +1,6 @@
 package com.budgetapp.BudgetApp.repository;
 
+import com.budgetapp.BudgetApp.controller.request.UpdateIncomeAndFundRequest;
 import com.budgetapp.BudgetApp.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,9 +52,36 @@ public class UserRepositoryDB implements UserRepository {
     }
 
     @Override
-    public User updateUserIncomeAndFund(User user) {
-        return null;
+    public User getIncomeAndFund(String username) {
+        try {
+            final String GET_INCOME_AND_FUND_BY_USERNAME =
+                    "SELECT * FROM `User` WHERE `username` = ?;";
+
+            return jdbc.queryForObject(GET_INCOME_AND_FUND_BY_USERNAME, new UserMapper(), username);
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
+
+    @Override
+    public boolean updateIncomeAndFund(UpdateIncomeAndFundRequest updateIncomeAndFundRequest) {
+        try {
+            final String UPDATE_INCOME_AND_FUND_BY_USERNAME =
+                    " UPDATE `user` SET " +
+                            " `availableFund` = ?, " +
+                            " `monthlyIncome` = ? " +
+                            " WHERE (`username` = ?);";
+
+            jdbc.update(UPDATE_INCOME_AND_FUND_BY_USERNAME,
+                    updateIncomeAndFundRequest.getAvailableFund(),
+                    updateIncomeAndFundRequest.getMonthlyIncome(),
+                    updateIncomeAndFundRequest.getUsername());
+            return true;
+        } catch (DataAccessException ex) {
+            return false;
+        }
+    }
+
 
     public static final class UserMapper implements RowMapper<User> {
 
