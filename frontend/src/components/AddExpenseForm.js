@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
+import "../styles/editExpense.css"
+
 
 
 
@@ -23,11 +25,11 @@ class AddExpenseForm extends React.Component{
             onChange={this.props.handleInputChange} />
           </label><br/>
 
-          <label>
-                  <input type='radio' name='Recurring' id="yesRadio" value='Yes' onChange={this.props.handleInputChange} />Recurring
+          <label className='radioOptions'>
+                  <input type='radio' name='options' id="yesRadio" value='Yes' onChange={this.props.handleInputChange} />Recurring
           </label>
-          <label>
-                  <input type='radio' name='Recurring' className="noRadio" value='No' onChange={this.props.handleInputChange} />One Time 
+          <label className='radioOptions'>
+                  <input type='radio' name='options' id="noRadio" value='No' onChange={this.props.handleInputChange} />One Time 
             </label><br />
 
           <Button type="submit" value="Submit">Add Expense</Button>

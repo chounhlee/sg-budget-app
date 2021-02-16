@@ -30,9 +30,20 @@ const ExpenseTableRow = ({info}) => {
         <td>{info.allocated}</td>
         <td>{info.remaining}</td>
         <td>{info.recurring}</td>
-        <td><Link to='/components/EditExpenseModal'><Button name='edt'>Edit</Button></Link></td>
+
+        <td>
+            <a id="editExpense" href="http://localhost:3000/editExpense" target="_self">
+                    <Button> Edit </Button>
+            </a>
+        </td>
+        
+
         <td><Button>Delete</Button></td>
-        <td><Button>Allocate</Button></td>
+        <td>
+        <a id="allocateFunds" href="http://localhost:3000/allocate" target="_self">
+                    <Button> Allocate </Button>
+            </a>
+        </td>
         </tr>
         
     );

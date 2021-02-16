@@ -42,12 +42,7 @@ class LoginForm extends React.Component {
                     <Button> Register </Button>
                 </a>
 
-                <h4 className="inputDetails">
-                    Username: {this.state.username}
-                </h4>
-                <h4 className="inputDetails">
-                    Password: {this.state.password}
-                </h4>
+                
 
                 
             </Form>

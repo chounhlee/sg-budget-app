@@ -3,6 +3,8 @@ import {Navbar, Nav, Button, Table, Form} from 'react-bootstrap'
 import ExpenseTable from './ExpenseTable'
 import AddExpenseForm from './AddExpenseForm'
 
+import "../styles/home.css"
+
 
 import { Container, Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,11 +14,18 @@ class HomeForm extends React.Component{
   constructor(){
   super();
 
+  var today = new Date(),
+
+  date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+
   this.state = {
     expenses: '',
     amount: '',
     recurring: '',
-    infos: []
+    infos: [],
+    currentDate: date
+
+
   }
 };
 
@@ -50,23 +59,26 @@ handleInputChange = (e) => {
 };
 
 
+
 render() {
   return (
     <Container fluid> 
-     <Navbar id="nav" bg="dark" variant="dark" >Budget App
-     <Nav className="links">
-     <Nav.Link href="#home">Username</Nav.Link>
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#login">Login</Nav.Link>
-      <Nav.Link href="#logout">Logout</Nav.Link>
-    </Nav>
-      </Navbar>
+    <Navbar id="nav" bg="dark" variant="dark" >Budget App
+      <Nav className="links">
+        <Nav.Link href="http://localhost:3000/login"> Logout </Nav.Link>
+      </Nav>
+    </Navbar>
     <Row>
       <Col>
         <h1 className="text-center">Budget Application</h1>
-        <h3>February 2020</h3>
+
+        <h3>{this.state.currentDate}</h3>
         <h3>Monthly Income:xxx
-          <Button id="edit">Edit</Button>
+
+          <a id="editIncomeButton" href="http://localhost:3000/editIncome" target="_self">
+                  <Button> Edit </Button>
+          </a>
+
         </h3>
         <h3>Available Fund:xxx</h3>
       </Col>

@@ -1,0 +1,19 @@
+#expenseHeader{
+    background-color:aliceblue;
+    border:2px solid black;
+    width: 400px;
+    height: 300px;
+    text-align: center;
+    align-self: center;
+    margin-top: 15px;
+    
+}
+
+#noRadio{
+    margin-left:15px;
+
+}
+
+.radioOptions{
+    font-size: medium;
+}
