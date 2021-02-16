@@ -105,12 +105,14 @@ class ExpenseTable extends Component{
                 <ExpenseTableHeader/>
             </thead>
             <tbody>
-            {infos.map(info => {
+            {infos.map((info, i) => {
                 
-                    return <ExpenseTableRow info={info} key={info} />
-                        
+                return <ExpenseTableRow key={i}
+                                        info={info}
+                                         />
                     
-            })}
+                
+        })}
 
             </tbody>
             

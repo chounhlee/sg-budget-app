@@ -1,16 +1,14 @@
 import React, {Component} from 'react'
-import './App.css';
 import {Navbar, Nav, Button, Table, Form} from 'react-bootstrap'
-import ExpenseTable from './components/ExpenseTable'
-import AddExpenseForm from './components/AddExpenseForm'
+import ExpenseTable from './ExpenseTable'
+import AddExpenseForm from './AddExpenseForm'
 
 
 import { Container, Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter } from 'react-router-dom';
 
 
-class App extends Component {
+class HomeForm extends React.Component{
   constructor(){
   super();
 
@@ -54,7 +52,6 @@ handleInputChange = (e) => {
 
 render() {
   return (
-    <BrowserRouter>
     <Container fluid> 
      <Navbar id="nav" bg="dark" variant="dark" >Budget App
      <Nav className="links">
@@ -97,9 +94,8 @@ render() {
     </Row>
 
     </Container>
-    </BrowserRouter>
 );
   }
 }
 
-export default App;
+export default HomeForm;
