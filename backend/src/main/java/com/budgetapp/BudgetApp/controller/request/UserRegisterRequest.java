@@ -3,12 +3,11 @@ package com.budgetapp.BudgetApp.controller.request;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
-public class UpdateIncomeAndFundRequest {
+public class UserRegisterRequest {
     private String username;
+    private String userPassword;
     private BigDecimal monthlyIncome;
     private BigDecimal availableFund;
-    private LocalDate month;
 }

@@ -1,7 +1,6 @@
 package com.budgetapp.BudgetApp.controller;
 
 import com.budgetapp.BudgetApp.controller.request.*;
-import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
 import com.budgetapp.BudgetApp.model.Expense;
 import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.service.BudgetService;
@@ -10,56 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
 public class MainController {
-    final
-    BudgetService budgetService;
-
-    final
-    UserService userService;
-
-    private HttpStatus status;
-    private Message message;
+    private final BudgetService budgetService;
+    private final UserService userService;
 
     public MainController(BudgetService budgetService, UserService userService) {
         this.budgetService = budgetService;
         this.userService = userService;
-        this.message = new Message();
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody User userRawData) {
-        User user = userService.register(userRawData);
-
-        if (user == null) {
-            status = HttpStatus.UNPROCESSABLE_ENTITY;
-            message.setMessage("Username already taken");
-        } else {
-            status = HttpStatus.CREATED;
-            message.setMessage(user.getUsername() + " created");
-        }
-
-        return new ResponseEntity<>(message, status);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Object> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
-        User user = userService.login(userLoginRequest);
-
-        if (user == null) {
-            status = HttpStatus.UNAUTHORIZED;
-            message.setMessage("Invalid username or password");
-        } else {
-            // Create imaginary cookie
-            status = HttpStatus.OK;
-            message.setMessage("Login success");
-        }
-
-        return new ResponseEntity<>(message, status);
     }
 
     @GetMapping("/expenses")
@@ -69,85 +29,49 @@ public class MainController {
         List<Expense> expenses = budgetService.getExpenses(userRawData.getUsername());
 
         if (expenses == null) {
-            status = HttpStatus.BAD_REQUEST;
-            message.setMessage("Invalid Request");
-            return new ResponseEntity<>(message, status);
-        } else {
-            // Create imaginary cookie
-            status = HttpStatus.OK;
-            message.setMessage("Login success");
-            return new ResponseEntity<>(expenses, status);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiMessage().setMessage("Invalid Request"));
         }
+
+        // Create imaginary cookie
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiMessage().setMessage("Login success"));
     }
 
     @PostMapping("/expenses")
-    public ResponseEntity<Object> addExpense(@RequestBody AddExpenseRequest addExpenseRequest) {
+    public ResponseEntity<Object> addExpense(@RequestBody ExpenseAddRequest addExpenseRequest) {
         Expense expense = budgetService.addExpense(addExpenseRequest);
 
         if (expense == null) {
-            status = HttpStatus.BAD_REQUEST;
-            message.setMessage("Invalid Request");
-        } else {
-            // Create imaginary cookie
-            status = HttpStatus.CREATED;
-            message.setMessage("Expense created successfully");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiMessage().setMessage("Invalid Request"));
         }
 
-        return new ResponseEntity<>(message, status);
+        // Create imaginary cookie
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiMessage().setMessage("Expense created successfully"));
     }
 
     @PutMapping("/expenses")
-    public ResponseEntity<Object> updateExpense(@RequestBody UpdateExpenseRequest updateExpenseRequest) {
-        if (!budgetService.updateExpense(updateExpenseRequest)) {
-            status = HttpStatus.BAD_REQUEST;
-            message.setMessage("Invalid Request");
-        } else {
-            status = HttpStatus.OK;
-            message.setMessage("Expense updated successfully");
+    public ResponseEntity<Object> updateExpense(@RequestBody ExpenseUpdateRequest expenseUpdateRequest) {
+        if (!budgetService.updateExpense(expenseUpdateRequest)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiMessage().setMessage("Invalid Request"));
         }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiMessage().setMessage("Expense updated successfully"));
 
-        return new ResponseEntity<>(message, status);
     }
 
     @DeleteMapping("/expenses")
-    public ResponseEntity<Object> deleteExpense(@RequestBody DeleteExpenseRequest deleteExpenseRequest) {
-        if (!budgetService.deleteExpense(deleteExpenseRequest)) {
-            status = HttpStatus.BAD_REQUEST;
-            message.setMessage("Invalid Request");
-        } else {
-            status = HttpStatus.OK;
-            message.setMessage("Expense delete successfully");
+    public ResponseEntity<Object> deleteExpense(@RequestBody ExpenseDeleteRequest expenseDeleteRequest) {
+        if (!budgetService.deleteExpense(expenseDeleteRequest)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiMessage().setMessage("Invalid Request"));
+
         }
 
-        return new ResponseEntity<>(message, status);
-    }
-
-    @GetMapping("/income")
-    public ResponseEntity<Object> getIncomeAndFund(@RequestBody GetUserIncomeRequest getUserIncomeRequest) {
-        UserIncomeAndExpenseDto userIncomeAndExpenseDto =
-                userService.getIncomeAndFund(getUserIncomeRequest.getUsername());
-
-        if (userIncomeAndExpenseDto == null) {
-            status = HttpStatus.BAD_REQUEST;
-            message.setMessage("Invalid Request");
-            return new ResponseEntity<>(message, status);
-        } else {
-            status = HttpStatus.OK;
-            return new ResponseEntity<>(userIncomeAndExpenseDto, status);
-        }
-    }
-
-
-    @PutMapping("/income")
-    public ResponseEntity<Object> updateIncomeAndFund(@RequestBody UpdateIncomeAndFundRequest updateIncomeAndFundRequest) {
-        if (!userService.updateIncomeAndFund(updateIncomeAndFundRequest)) {
-            status = HttpStatus.BAD_REQUEST;
-            message.setMessage("Invalid Request");
-        } else {
-            status = HttpStatus.OK;
-            message.setMessage("Income and Fund updated successfully");
-        }
-
-        return new ResponseEntity<>(message, status);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiMessage().setMessage("Expense delete successfully"));
     }
 }

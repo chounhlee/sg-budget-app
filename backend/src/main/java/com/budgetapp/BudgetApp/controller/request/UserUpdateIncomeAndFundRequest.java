@@ -6,12 +6,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class UpdateExpenseRequest {
-    private int expenseId;
-    private String expenseName;
+public class UserUpdateIncomeAndFundRequest {
     private String username;
-    private boolean isMonthly;
-    private BigDecimal amount;
-    private BigDecimal allocated;
+    private BigDecimal monthlyIncome;
+    private BigDecimal availableFund;
     private LocalDate month;
 }

@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class AddExpenseRequest {
-    private String username;
+public class ExpenseUpdateRequest {
+    private int expenseId;
     private String expenseName;
+    private String username;
     private boolean isMonthly;
     private BigDecimal amount;
+    private BigDecimal allocated;
     private LocalDate month;
 }

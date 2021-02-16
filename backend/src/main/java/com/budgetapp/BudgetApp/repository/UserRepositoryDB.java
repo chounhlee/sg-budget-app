@@ -1,6 +1,6 @@
 package com.budgetapp.BudgetApp.repository;
 
-import com.budgetapp.BudgetApp.controller.request.UpdateIncomeAndFundRequest;
+import com.budgetapp.BudgetApp.controller.request.UserUpdateIncomeAndFundRequest;
 import com.budgetapp.BudgetApp.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,7 +63,7 @@ public class UserRepositoryDB implements UserRepository {
     }
 
     @Override
-    public boolean updateIncomeAndFund(UpdateIncomeAndFundRequest updateIncomeAndFundRequest) {
+    public boolean updateIncomeAndFund(UserUpdateIncomeAndFundRequest userUpdateIncomeAndFundRequest) {
         try {
             final String UPDATE_INCOME_AND_FUND_BY_USERNAME =
                     " UPDATE `user` SET " +
@@ -73,9 +72,9 @@ public class UserRepositoryDB implements UserRepository {
                             " WHERE (`username` = ?);";
 
             jdbc.update(UPDATE_INCOME_AND_FUND_BY_USERNAME,
-                    updateIncomeAndFundRequest.getAvailableFund(),
-                    updateIncomeAndFundRequest.getMonthlyIncome(),
-                    updateIncomeAndFundRequest.getUsername());
+                    userUpdateIncomeAndFundRequest.getAvailableFund(),
+                    userUpdateIncomeAndFundRequest.getMonthlyIncome(),
+                    userUpdateIncomeAndFundRequest.getUsername());
             return true;
         } catch (DataAccessException ex) {
             return false;

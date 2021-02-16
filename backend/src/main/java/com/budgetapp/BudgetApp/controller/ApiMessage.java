@@ -1,9 +1,10 @@
 package com.budgetapp.BudgetApp.controller;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
-public class Message {
+@Accessors(chain = true)
+public class ApiMessage {
     private String message;
-
 }

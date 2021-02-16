@@ -1,8 +1,8 @@
 package com.budgetapp.BudgetApp.service;
 
-import com.budgetapp.BudgetApp.controller.request.AddExpenseRequest;
-import com.budgetapp.BudgetApp.controller.request.DeleteExpenseRequest;
-import com.budgetapp.BudgetApp.controller.request.UpdateExpenseRequest;
+import com.budgetapp.BudgetApp.controller.request.ExpenseAddRequest;
+import com.budgetapp.BudgetApp.controller.request.ExpenseDeleteRequest;
+import com.budgetapp.BudgetApp.controller.request.ExpenseUpdateRequest;
 import com.budgetapp.BudgetApp.model.Expense;
 import com.budgetapp.BudgetApp.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
@@ -26,32 +26,32 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Expense addExpense(AddExpenseRequest addExpenseRequest) {
+    public Expense addExpense(ExpenseAddRequest expenseAddRequest) {
         Expense expense = new Expense();
-        expense.setUsername(addExpenseRequest.getUsername());
-        expense.setAmount(addExpenseRequest.getAmount());
-        expense.setExpenseName(addExpenseRequest.getExpenseName());
-        expense.setRemaining(addExpenseRequest.getAmount());
-        expense.setMonthly(addExpenseRequest.isMonthly());
+        expense.setUsername(expenseAddRequest.getUsername());
+        expense.setAmount(expenseAddRequest.getAmount());
+        expense.setExpenseName(expenseAddRequest.getExpenseName());
+        expense.setRemaining(expenseAddRequest.getAmount());
+        expense.setMonthly(expenseAddRequest.isMonthly());
         expense.setAllocated(BigDecimal.ZERO);
-        expense.setDateUpdated(addExpenseRequest.getMonth());
+        expense.setDateUpdated(expenseAddRequest.getMonth());
 
         return expenseRepository.addExpense(expense);
     }
 
     @Override
-    public boolean updateExpense(UpdateExpenseRequest updateExpenseRequest) {
+    public boolean updateExpense(ExpenseUpdateRequest expenseUpdateRequest) {
         Expense expense = new Expense();
-        expense.setId(updateExpenseRequest.getExpenseId());
-        expense.setUsername(updateExpenseRequest.getUsername());
-        expense.setAmount(updateExpenseRequest.getAmount());
-        expense.setExpenseName(updateExpenseRequest.getExpenseName());
-        expense.setMonthly(updateExpenseRequest.isMonthly());
-        expense.setAllocated(updateExpenseRequest.getAllocated());
-        expense.setDateUpdated(updateExpenseRequest.getMonth());
+        expense.setId(expenseUpdateRequest.getExpenseId());
+        expense.setUsername(expenseUpdateRequest.getUsername());
+        expense.setAmount(expenseUpdateRequest.getAmount());
+        expense.setExpenseName(expenseUpdateRequest.getExpenseName());
+        expense.setMonthly(expenseUpdateRequest.isMonthly());
+        expense.setAllocated(expenseUpdateRequest.getAllocated());
+        expense.setDateUpdated(expenseUpdateRequest.getMonth());
 
         // Need to calculate correctly
-        expense.setRemaining(updateExpenseRequest.getAmount());
+        expense.setRemaining(expenseUpdateRequest.getAmount());
 
         // Update user fund
 
@@ -59,17 +59,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public boolean deleteExpense(DeleteExpenseRequest deleteExpenseRequest) {
-        return expenseRepository.deleteExpense(deleteExpenseRequest.getExpenseId());
-    }
-
-    @Override
-    public void getIncomeAndFund() {
-
-    }
-
-    @Override
-    public void editIncomeAndFund() {
-
+    public boolean deleteExpense(ExpenseDeleteRequest expenseDeleteRequest) {
+        return expenseRepository.deleteExpense(expenseDeleteRequest.getExpenseId());
     }
 }
