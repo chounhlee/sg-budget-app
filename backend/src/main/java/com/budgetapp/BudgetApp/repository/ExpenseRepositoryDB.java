@@ -100,11 +100,22 @@ public class ExpenseRepositoryDB implements ExpenseRepository {
 
     }
 
+    @Override
+    public Expense getExpense(String username, int id) {
+        try {
+            final String GET_EXPENSE_BY_ID = "SELECT * FROM `Expense` WHERE `username` = ? AND `id` = ?;";
+            return jdbc.queryForObject(GET_EXPENSE_BY_ID, new ExpenseMapper(), username, id);
+        } catch (DataAccessException ex) {
+            return null;
+        }
+    }
+
 
     public static final class ExpenseMapper implements RowMapper<Expense> {
         @Override
         public Expense mapRow(ResultSet resultSet, int i) throws SQLException {
             Expense expense = new Expense();
+            expense.setId(resultSet.getInt("id"));
             expense.setUsername(resultSet.getString("username"));
             expense.setExpenseName(resultSet.getString("expenseName"));
             expense.setMonthly(resultSet.getBoolean("isMonthly"));

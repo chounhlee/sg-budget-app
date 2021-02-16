@@ -8,9 +8,9 @@ import java.time.LocalDate;
 
 @Data
 @Accessors(chain = true)
-public class UserUpdateIncomeAndFundRequest {
+public class ExpenseAllocateRequest {
+    private int expenseId;
     private String username;
-    private BigDecimal monthlyIncome;
-    private BigDecimal availableFund;
+    private BigDecimal allocated;
     private LocalDate month;
 }

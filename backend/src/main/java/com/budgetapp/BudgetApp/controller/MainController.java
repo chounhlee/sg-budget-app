@@ -35,7 +35,7 @@ public class MainController {
 
         // Create imaginary cookie
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiMessage().setMessage("Login success"));
+                .body(expenses);
     }
 
     @PostMapping("/expenses")
@@ -60,7 +60,6 @@ public class MainController {
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiMessage().setMessage("Expense updated successfully"));
-
     }
 
     @DeleteMapping("/expenses")
@@ -68,10 +67,20 @@ public class MainController {
         if (!budgetService.deleteExpense(expenseDeleteRequest)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ApiMessage().setMessage("Invalid Request"));
-
         }
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiMessage().setMessage("Expense delete successfully"));
+    }
+
+    @PostMapping("/expenses/allocate")
+    public ResponseEntity<Object> allocateToExpense(@RequestBody ExpenseAllocateRequest expenseAllocateRequest ) {
+        if (!budgetService.allocateExpense(expenseAllocateRequest)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiMessage().setMessage("Invalid Request"));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiMessage().setMessage("Expense allocated successfully"));
     }
 }

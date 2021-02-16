@@ -1,23 +1,29 @@
 package com.budgetapp.BudgetApp.service;
 
-import com.budgetapp.BudgetApp.controller.request.ExpenseAddRequest;
-import com.budgetapp.BudgetApp.controller.request.ExpenseDeleteRequest;
-import com.budgetapp.BudgetApp.controller.request.ExpenseUpdateRequest;
+import com.budgetapp.BudgetApp.controller.request.*;
 import com.budgetapp.BudgetApp.model.Expense;
+import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.repository.ExpenseRepository;
+import com.budgetapp.BudgetApp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class BudgetServiceImpl implements BudgetService {
 
     final
-    ExpenseRepository expenseRepository;
+    private ExpenseRepository expenseRepository;
 
-    public BudgetServiceImpl(ExpenseRepository expenseRepository) {
+    final
+    private UserRepository userRepository;
+
+    public BudgetServiceImpl(ExpenseRepository expenseRepository, UserRepository userRepository) {
         this.expenseRepository = expenseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -41,25 +47,78 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public boolean updateExpense(ExpenseUpdateRequest expenseUpdateRequest) {
-        Expense expense = new Expense();
-        expense.setId(expenseUpdateRequest.getExpenseId());
-        expense.setUsername(expenseUpdateRequest.getUsername());
-        expense.setAmount(expenseUpdateRequest.getAmount());
-        expense.setExpenseName(expenseUpdateRequest.getExpenseName());
-        expense.setMonthly(expenseUpdateRequest.isMonthly());
-        expense.setAllocated(expenseUpdateRequest.getAllocated());
-        expense.setDateUpdated(expenseUpdateRequest.getMonth());
+        // Query for expense using expenseID
+        Expense expenseFromRepo = expenseRepository.getExpense(
+                expenseUpdateRequest.getUsername(), expenseUpdateRequest.getExpenseId());
 
-        // Need to calculate correctly
-        expense.setRemaining(expenseUpdateRequest.getAmount());
+        User userFromRepo = userRepository.getUserByUsername(expenseUpdateRequest.getUsername());
+        userFromRepo.setAvailableFund(userFromRepo.getAvailableFund().add(expenseFromRepo.getAllocated()));
 
-        // Update user fund
+        expenseFromRepo.setAmount(expenseUpdateRequest.getAmount());
+        expenseFromRepo.setRemaining(expenseUpdateRequest.getAmount());
+        expenseFromRepo.setAllocated(new BigDecimal(0));
+        expenseFromRepo.setExpenseName(expenseUpdateRequest.getExpenseName());
+        expenseFromRepo.setMonthly(expenseUpdateRequest.isMonthly());
+        expenseFromRepo.setDateUpdated(expenseUpdateRequest.getMonth());
 
-        return expenseRepository.updateExpense(expense);
+
+        UserUpdateIncomeAndFundRequest userUpdateIncomeAndFundRequest = new UserUpdateIncomeAndFundRequest()
+                .setAvailableFund(userFromRepo.getAvailableFund())
+                .setMonthlyIncome(userFromRepo.getMonthlyIncome())
+                .setUsername(userFromRepo.getUsername());
+
+        return (expenseRepository.updateExpense(expenseFromRepo)
+                && userRepository.updateIncomeAndFund(userUpdateIncomeAndFundRequest));
+    }
+
+    @Override
+    public boolean allocateExpense(ExpenseAllocateRequest expenseAllocateRequest) {
+        Expense expenseFromRepo = expenseRepository.getExpense(expenseAllocateRequest.getUsername(),
+                expenseAllocateRequest.getExpenseId());
+
+        User userFromRepo = userRepository.getUserByUsername(expenseAllocateRequest.getUsername());
+
+        if (expenseFromRepo == null) {
+            return false;
+        }
+
+        // Allocated amount > remaining
+        if (expenseAllocateRequest.getAllocated().setScale(2, RoundingMode.HALF_UP)
+                .compareTo(expenseFromRepo.getRemaining()) > 0) {
+            expenseAllocateRequest.setAllocated((expenseFromRepo.getRemaining()));
+        }
+
+        // Allocated amount > user available fund
+        if (expenseAllocateRequest.getAllocated().setScale(2, RoundingMode.HALF_UP)
+                .compareTo(userFromRepo.getAvailableFund()) > 0) {
+            expenseAllocateRequest.setAllocated((userFromRepo.getAvailableFund()));
+        }
+
+        expenseFromRepo.setAllocated(expenseFromRepo.getAllocated()
+                .add(expenseAllocateRequest.getAllocated()));
+
+        expenseFromRepo.setRemaining(expenseFromRepo.getRemaining()
+                .subtract(expenseAllocateRequest.getAllocated()));
+
+        expenseRepository.updateExpense(expenseFromRepo);
+
+        // update user fund
+        userFromRepo.setAvailableFund(userFromRepo.getAvailableFund()
+                .subtract(expenseAllocateRequest.getAllocated()));
+
+        UserUpdateIncomeAndFundRequest userUpdateIncomeAndFundRequest = new UserUpdateIncomeAndFundRequest()
+                .setAvailableFund(userFromRepo.getAvailableFund())
+                .setMonthlyIncome(userFromRepo.getMonthlyIncome())
+                .setUsername(userFromRepo.getUsername());
+
+        return (expenseRepository.updateExpense(expenseFromRepo)
+                && userRepository.updateIncomeAndFund(userUpdateIncomeAndFundRequest));
     }
 
     @Override
     public boolean deleteExpense(ExpenseDeleteRequest expenseDeleteRequest) {
         return expenseRepository.deleteExpense(expenseDeleteRequest.getExpenseId());
     }
+
+
 }

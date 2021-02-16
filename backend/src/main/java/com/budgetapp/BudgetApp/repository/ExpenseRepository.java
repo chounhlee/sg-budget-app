@@ -9,5 +9,5 @@ public interface ExpenseRepository {
     Expense addExpense(Expense expense);
     boolean updateExpense(Expense expense);
     boolean deleteExpense(int id);
-
+    Expense getExpense(String username, int id);
 }
