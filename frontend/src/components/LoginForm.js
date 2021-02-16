@@ -1,55 +1,50 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap'
+import {Form, Button} from 'react-bootstrap'
 import "../styles/LoginForm.css"
 
 
-
 class LoginForm extends React.Component {
-    constructor(){
-        super()
-        this.state = {
-            username: '',
-            password: ''
-        }
-        this.handleOnChange = this.handleOnChange.bind(this)
+  constructor() {
+    super()
+    this.state = {
+      username: '',
+      password: ''
     }
+    this.handleOnChange = this.handleOnChange.bind(this)
+  }
 
-    handleOnChange(event){
-        const { name, value} = event.target
-        
-        this.setState({
-            [name]: value
-        })
-    }
+  handleOnChange(event) {
+    const {name, value} = event.target
 
-    render() {
-        return (
-            <Form>
-                <Form.Group controlId="loginUsername">
-                    <Form.Label></Form.Label>
-                    <Form.Control type="text" placeholder="Username" name="username" onChange={this.handleOnChange}/>
-                </Form.Group>
-                <Form.Group controlId="loginPassword">
-                    <Form.Label></Form.Label>
-                    <Form.Control type="text" placeholder="Password" name="password" onChange={this.handleOnChange}/>
-                </Form.Group>
+    this.setState({
+      [name]: value
+    })
+  }
 
-                <a id="loginButton" href="http://localhost:3000/home" target="_self">
-                    <Button> Login </Button>
-                </a>
+  render() {
+    return (
+      <Form>
+        <Form.Group controlId="loginUsername">
+          <Form.Label></Form.Label>
+          <Form.Control type="text" placeholder="Username" name="username" onChange={this.handleOnChange} />
+        </Form.Group>
+        <Form.Group controlId="loginPassword">
+          <Form.Label></Form.Label>
+          <Form.Control type="text" placeholder="Password" name="password" onChange={this.handleOnChange} />
+        </Form.Group>
 
-                <a id="registerButton" href="http://localhost:3000/register" target="_self">
-                    <Button> Register </Button>
-                </a>
+        <a id="loginButton" href="http://localhost:3000/home" target="_self">
+          <Button> Login </Button>
+        </a>
 
-                
+        <a id="registerButton" href="http://localhost:3000/register" target="_self">
+          <Button> Register </Button>
+        </a>
 
-                
-            </Form>
 
-            
-        )
-    }
+      </Form>
+    )
+  }
 }
 
 export default LoginForm

@@ -5,108 +5,103 @@ import AddExpenseForm from './AddExpenseForm'
 
 import "../styles/home.css"
 
-
-import { Container, Row, Col } from 'react-bootstrap'
+import {Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-class HomeForm extends React.Component{
-  constructor(){
-  super();
+class HomeForm extends React.Component {
+  constructor() {
+    super();
 
-  var today = new Date(),
+    var today = new Date(),
 
-  date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+      date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
 
-  this.state = {
-    expenses: '',
-    amount: '',
-    recurring: '',
-    infos: [],
-    currentDate: date
+    this.state = {
+      expenses: '',
+      amount: '',
+      recurring: '',
+      infos: [],
+      currentDate: date
+    }
+  };
 
+  handleFormSubmit = (e) => {
+    e.preventDefault();
 
-  }
-};
+    let infos = [...this.state.infos];
 
-handleFormSubmit = (e) => {
-  e.preventDefault();
+    infos.push({
+      expenses: this.state.expenses,
+      amount: this.state.amount,
+      recurring: this.state.recurring
+    });
 
-  let infos = [...this.state.infos];
+    this.setState({
+      infos,
+      expenses: '',
+      amount: '',
+      recurring: ''
+    });
+  };
 
-  infos.push({
-    expenses: this.state.expenses,
-    amount: this.state.amount,
-    recurring: this.state.recurring
-  });
+  handleInputChange = (e) => {
+    let input = e.target;
+    let name = e.target.name;
+    let value = input.value;
 
-  this.setState({
-    infos,
-    expenses: '',
-    amount: '',
-    recurring:''
-  });
-};
-
-handleInputChange = (e) => {
-  let input = e.target;
-  let name = e.target.name;
-  let value = input.value;
-
-  this.setState({
-    [name]: value
-  })
-};
+    this.setState({
+      [name]: value
+    })
+  };
 
 
+  render() {
+    return (
+      <Container fluid>
+        <Navbar id="nav" bg="dark" variant="dark">Budget App
+          <Nav className="links">
+            <Nav.Link href="http://localhost:3000/login"> Logout </Nav.Link>
+          </Nav>
+        </Navbar>
+        <Row>
+          <Col>
+            <h1 className="text-center">Budget Application</h1>
 
-render() {
-  return (
-    <Container fluid> 
-    <Navbar id="nav" bg="dark" variant="dark" >Budget App
-      <Nav className="links">
-        <Nav.Link href="http://localhost:3000/login"> Logout </Nav.Link>
-      </Nav>
-    </Navbar>
-    <Row>
-      <Col>
-        <h1 className="text-center">Budget Application</h1>
+            <h3>{this.state.currentDate}</h3>
+            <h3>Monthly Income:xxx
 
-        <h3>{this.state.currentDate}</h3>
-        <h3>Monthly Income:xxx
+              <a id="editIncomeButton" href="http://localhost:3000/editIncome" target="_self">
+                <Button> Edit </Button>
+              </a>
 
-          <a id="editIncomeButton" href="http://localhost:3000/editIncome" target="_self">
-                  <Button> Edit </Button>
-          </a>
+            </h3>
+            <h3>Available Fund:xxx</h3>
+          </Col>
+        </Row>
+        <hr />
+        <Row>
+          <Col sm={8}>
+            <h2>My Expense Info</h2>
+            <ExpenseTable />
+          </Col>
+          <Col sm={4}>
+            <h2>Add New Expense</h2>
+            <AddExpenseForm />
 
-        </h3>
-        <h3>Available Fund:xxx</h3>
-      </Col>
-    </Row>
-    <hr />
-    <Row>
-      <Col sm={8}>
-        <h2>My Expense Info</h2>
-        <ExpenseTable />
-      </Col>
-      <Col sm={4}>
-        <h2>Add New Expense</h2>
-        <AddExpenseForm />
-        
-      </Col>
-      <div className="App">
-      <Table infos={ this.state.infos }/>
-      <Form handleFormSubmit={ this.handleFormSubmit } 
-        handleInputChange={ this.handleInputChange }
-        newExpenseName={ this.state.expenses }
-        newAmount={ this.state.amount }
-        newRecurring={ this.state.recurring } />
-        
-    </div>
-    </Row>
+          </Col>
+          <div className="App">
+            <Table infos={this.state.infos} />
+            <Form handleFormSubmit={this.handleFormSubmit}
+                  handleInputChange={this.handleInputChange}
+                  newExpenseName={this.state.expenses}
+                  newAmount={this.state.amount}
+                  newRecurring={this.state.recurring} />
+          </div>
+        </Row>
 
-    </Container>
-);
+      </Container>
+    );
   }
 }
 
