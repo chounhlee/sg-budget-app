@@ -2,15 +2,16 @@ package com.budgetapp.BudgetApp.repository;
 
 import com.budgetapp.BudgetApp.model.Expense;
 import com.budgetapp.BudgetApp.model.User;
-import org.junit.Before;
-import org.junit.Test;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,7 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Sql(value = {"/Test_DB_DROP_TABLES.sql"})
 public class ExpenseRepositoryDBTest {
@@ -32,7 +33,7 @@ public class ExpenseRepositoryDBTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @Before
+    @BeforeEach
     public void setup() {
         setupUserAndExpenseTable();
     }
