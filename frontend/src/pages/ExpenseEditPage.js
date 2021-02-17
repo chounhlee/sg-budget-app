@@ -5,7 +5,7 @@ import {withRouter} from "react-router";
 
 const SERVICE_URL = "http://localhost:8080";
 
-class EditExpense extends Component {
+class ExpenseEditPage extends Component {
   state = {
     currentDate: "",
     loading: false,
@@ -116,4 +116,4 @@ class EditExpense extends Component {
   }
 }
 
-export default withCookies(withRouter(EditExpense))
+export default withCookies(withRouter(ExpenseEditPage))

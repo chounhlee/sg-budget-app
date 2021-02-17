@@ -14,6 +14,8 @@ import AllocatePage from './pages/ExpenseAllocatePage';
 
 import { instanceOf } from 'prop-types';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
+import ExpenseEditPage from "./pages/ExpenseEditPage";
+import ExpenseAllocatePage from "./pages/ExpenseAllocatePage";
 
 class App extends Component {
   static propTypes = {
@@ -42,7 +44,7 @@ class App extends Component {
                   <Route path='/home' component={HomePage} />
                   <Route path='/expenses/:id/edit' render = {this.renderEditExpense} />
                   <Route path='/editIncome' component={EditIncome} />
-                  <Route path='/allocate' component={AllocatePage} />
+                  <Route path='/expenses/:id/allocate' render = {this.renderExpenseAllocate} />
                 </Switch>
               </main>
             </div>
@@ -53,7 +55,11 @@ class App extends Component {
   }
 
   renderEditExpense(routerProps) {
-    return <EditExpense expenseId={routerProps.match.params.id}/>
+    return <ExpenseEditPage expenseId={routerProps.match.params.id}/>
+  }
+
+  renderExpenseAllocate(routerProps) {
+    return <ExpenseAllocatePage expenseId={routerProps.match.params.id}/>
   }
 }
 
