@@ -31,11 +31,11 @@ class HomeForm extends Component {
         "monthly": true
       }],
     newExpenseData: {
-      "username": "",
+      "username": "user1",
       "expenseName": "",
       "isMonthly": false,
       "amount": 0,
-      "month": ""
+      "month": "2020-01-01"
     }
   }
 
@@ -66,32 +66,45 @@ class HomeForm extends Component {
   }
 
   handleFormSubmit = (e) => {
+    console.log("Adding Expense");
     e.preventDefault();
 
-    let infos = [...this.state.infos];
+    fetch(`${SERVICE_URL}/expenses`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state.newExpenseData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState(
+          { newExpenseData: {
+              "username": "user1",
+              "expenseName": "",
+              "isMonthly": false,
+              "amount": 0,
+              "month": "2020-01-01"
+            }, loading: false}
+        )
 
-    infos.push({
-      expenses: this.state.expenses,
-      amount: this.state.amount,
-      recurring: this.state.recurring
-    });
-
-    this.setState({
-      infos,
-      expenses: '',
-      amount: '',
-      recurring: ''
-    });
+        this.loadExpensesData();
+      });
   };
 
   handleInputChange = (e) => {
-    let input = e.target;
-    let name = e.target.name;
-    let value = input.value;
+    console.log("New Expense data is changing");
+    let inputName = e.target.name;
+    let inputValue = e.target.value;
+    let expenseData = this.state.newExpenseData;
+    console.log(inputName);
+    console.log(inputValue);
+    if (expenseData.hasOwnProperty(inputName)) {
+      expenseData[inputName] = inputValue;
+      this.setState({newExpenseData: expenseData})
+    }
 
-    this.setState({
-      [name]: value
-    })
+    console.log(this.state.newExpenseData);
   };
 
   render() {
@@ -121,22 +134,25 @@ class HomeForm extends Component {
         <Row>
           <Col sm={9}>
             <h5>My Expenses</h5>
-            <ExpenseTable expenses={this.state.expensesData}  />
+            <ExpenseTable expenses={this.state.expensesData} />
           </Col>
 
           <Col sm={3}>
             <h5>Add New Expense</h5>
-            <AddExpenseForm />
+            <AddExpenseForm
+              expenseData={this.state.newExpenseData}
+              handleChange={this.handleInputChange}
+              handleSubmit={this.handleFormSubmit} />
 
           </Col>
-          <div className="App">
-            <Table infos={this.state.infos} />
-            <Form handleFormSubmit={this.handleFormSubmit}
-                  handleInputChange={this.handleInputChange}
-                  newExpenseName={this.state.expenses}
-                  newAmount={this.state.amount}
-                  newRecurring={this.state.recurring} />
-          </div>
+          {/*<div className="App">*/}
+          {/*  <Table infos={this.state.expensesData} />*/}
+          {/*  <Form handleFormSubmit={this.handleFormSubmit}*/}
+          {/*        onChange={this.handleInputChange}*/}
+          {/*        newExpenseName={this.state.expenses}*/}
+          {/*        newAmount={this.state.amount}*/}
+          {/*        newRecurring={this.state.recurring} />*/}
+          {/*</div>*/}
         </Row>
 
       </Container>

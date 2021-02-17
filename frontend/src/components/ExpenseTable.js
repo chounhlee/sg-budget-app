@@ -25,7 +25,7 @@ const ExpenseTableRow = ({expense}) => {
       <td>${expense.remaining}</td>
       <td>{(expense.monthly) ? "Yes" : ""}</td>
 
-      <td>
+      <td className="pl-0 pr-0">
         <a id="editExpense" href="http://localhost:3000/editExpense" target="_self">
           <Button> Edit </Button>
         </a>
