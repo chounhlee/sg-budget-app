@@ -65,7 +65,8 @@ public class ExpenseRepositoryDB implements ExpenseRepository {
                             " `expenseName` = ?, " +
                             " `amount` = ?, " +
                             " `allocated` = ?, " +
-                            " `remaining` = ?" +
+                            " `remaining` = ?, " +
+                            " `isMonthly` = ?" +
                             " WHERE (`id` = ?) AND (`username` = ?);";
 
             jdbc.update(UPDATE_EXPENSE_BY_ID_AND_USERNAME,
@@ -73,6 +74,7 @@ public class ExpenseRepositoryDB implements ExpenseRepository {
                     expense.getAmount(),
                     expense.getAllocated(),
                     expense.getRemaining(),
+                    expense.isMonthly(),
                     expense.getId(),
                     expense.getUsername());
             return true;

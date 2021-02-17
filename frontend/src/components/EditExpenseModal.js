@@ -1,7 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
-import {Container, Row, Col} from 'react-bootstrap'
 import "../styles/editExpense.css"
 import {withCookies} from "react-cookie";
 
@@ -12,34 +11,37 @@ class EditExpenseModal extends Component {
   }
 
   render() {
-    let {expenseData, handleChange, handleSubmit} = this.props;
+    let {editExpenseData, handleChange, handleSubmit} = this.props;
 
     return (
       <main>
         <Fragment>
           <div className="form-group">
-            <input name="expenses" type="text" id="expNameInput" className="form-control form-control-lg"
+            <input name="expenseName" type="text" id="expNameInput" className="form-control form-control-lg"
                    placeholder="Expense name"
-                   value={expenseData.expenseName}
+                   value={editExpenseData.expenseName}
                    onChange={handleChange} />
           </div>
           <div className="form-group">
             <input name="amount" type="text" id="amtInput" className="form-control form-control-lg"
                    placeholder="Amount"
-                   value={expenseData.amount}
+                   value={editExpenseData.amount}
                    onChange={handleChange} />
           </div>
           <label className='radioOptions'>
-            <input type='radio' name='monthly' value='true'
+            <input type='radio' name='isMonthly'
+                   value='true'
                    onChange={handleChange}
-                   checked={(expenseData.monthly === true)}
-              />
+                   checked={((editExpenseData.isMonthly+"") === "true")}
+            />
             Recurring
           </label>
           <label className='radioOptions'>
-            <input type='radio' name='monthly' value='false'
+            <input type='radio' name='isMonthly'
+                   value='false'
                    onChange={handleChange}
-            checked={(expenseData.monthly === false)}/>
+                   checked={((editExpenseData.isMonthly+"") === "false")}
+                    />
             One Time
           </label><br />
 
@@ -47,7 +49,7 @@ class EditExpenseModal extends Component {
             <Button> Close </Button>
           </a>
           <Button id="addExp"
-          onSubmit={handleSubmit}>Submit</Button>
+                  onClick={handleSubmit}>Submit</Button>
 
         </Fragment>
 

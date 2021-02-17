@@ -1,5 +1,6 @@
 package com.budgetapp.BudgetApp.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -12,7 +13,10 @@ public class ExpenseUpdateRequest {
     private int expenseId;
     private String expenseName;
     private String username;
+
+    @JsonProperty("isMonthly")
     private boolean isMonthly;
+
     private BigDecimal amount;
     private LocalDate month;
 }

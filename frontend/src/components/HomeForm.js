@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Navbar, Nav, Button, Table, Form} from 'react-bootstrap'
+import {Navbar, Nav, Button} from 'react-bootstrap'
 import ExpenseTable from './ExpenseTable'
 import AddExpenseForm from './AddExpenseForm'
 
@@ -28,7 +28,7 @@ class HomeForm extends Component {
         "allocated": 0.00,
         "remaining": 1000.00,
         "dateUpdated": "2020-02-01",
-        "monthly": true
+        "isMonthly": true
       }],
     newExpenseData: {
       "username": "user1",

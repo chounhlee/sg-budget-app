@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Table, Button} from 'react-bootstrap'
-import {Link} from 'react-router-dom';
 
 const ExpenseTableHeader = () => {
   return (
@@ -23,7 +22,7 @@ const ExpenseTableRow = ({expense}) => {
       <td>${expense.amount}</td>
       <td>${expense.allocated}</td>
       <td>${expense.remaining}</td>
-      <td>{(expense.monthly) ? "Yes" : ""}</td>
+      <td>{(expense.isMonthly) ? "Yes" : ""}</td>
 
       <td className="pl-0 pr-0">
         <a id="editExpense" href={`expenses/${expense.id}/edit`} target="_self">

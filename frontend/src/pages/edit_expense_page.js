@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import EditExpenseModal from '../components/EditExpenseModal'
 import {withCookies} from "react-cookie";
+import {withRouter} from "react-router";
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -20,19 +21,49 @@ class EditExpense extends Component {
         "isMonthly": true
       },
     editExpenseData: {
-      "username": this.props.cookies.get("username"),
+      "expenseId": 0,
+      "username": "",
       "expenseName": "",
       "isMonthly": false,
       "amount": 0,
-      "month": "2020-01-01"
+      "month": "2020-02-01"
     }
+
   }
-  handleFormSubmit = (e) => {
-  
+  handleSubmit = (e) => {
+    console.log("Editing Expense");
+    e.preventDefault();
+
+    fetch(`${SERVICE_URL}/expenses`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state.editExpenseData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Expense edited success");
+        this.props.history.push('/home');
+      });
   };
 
-  handleInputChange = (e) => {
+  handleChange = (e) => {
+    console.log("Expense data is changing");
+    let inputName = e.target.name;
+    let inputValue = e.target.value;
+    let editExpenseData = this.state.editExpenseData;
 
+    if (editExpenseData.hasOwnProperty(inputName)) {
+      if (inputName === "isMonthly") {
+        editExpenseData[inputName] = (inputValue === "true");
+      } else {
+        editExpenseData[inputName] = inputValue;
+      }
+      this.setState({editExpenseData: editExpenseData})
+    }
+    console.log("Edit expense data: ");
+    console.log(this.state.editExpenseData);
   };
 
   componentDidMount() {
@@ -54,8 +85,18 @@ class EditExpense extends Component {
         this.setState(
           {expenseData: data, loading: false}
         )
-        console.log("From edit expense:" + data);
-        console.log(data);
+
+        let editExpenseData = this.state.editExpenseData;
+        editExpenseData.expenseId = data.id;
+        editExpenseData.username = data.username;
+        editExpenseData.expenseName = data.expenseName;
+        editExpenseData.amount = data.amount;
+        editExpenseData.isMonthly = data.isMonthly;
+        editExpenseData.month = data.dateUpdated;
+
+        this.setState(
+          {editExpenseData: editExpenseData}
+        );
       });
   }
 
@@ -64,9 +105,10 @@ class EditExpense extends Component {
       <div id="edit_expense_page" className="App-page">
         <h2 id="expenseHeader">
           Edit Expense
-          <EditExpenseModal expenseData={this.state.expenseData}
-                            handleChange={this.handleInputChange}
-                            handleSubmit={this.handleFormSubmit} />
+          <EditExpenseModal
+            editExpenseData={this.state.editExpenseData}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit} />
 
         </h2>
       </div>
@@ -74,4 +116,4 @@ class EditExpense extends Component {
   }
 }
 
-export default withCookies(EditExpense)
+export default withCookies(withRouter(EditExpense))
