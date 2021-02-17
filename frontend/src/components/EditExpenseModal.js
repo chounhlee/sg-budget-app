@@ -3,42 +3,51 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
 import {Container, Row, Col} from 'react-bootstrap'
 import "../styles/editExpense.css"
+import {withCookies} from "react-cookie";
 
 
 class EditExpenseModal extends Component {
-  constructor() {
-    super()
-    this.state = {
-      expenses: '',
-      amount: '',
-    }
+  constructor(props) {
+    super(props)
   }
 
   render() {
+    let {expenseData, handleChange, handleSubmit} = this.props;
+
     return (
       <main>
         <Fragment>
           <div className="form-group">
             <input name="expenses" type="text" id="expNameInput" className="form-control form-control-lg"
-                   placeholder="Expense name" onChange={this.handleOnChange} />
+                   placeholder="Expense name"
+                   value={expenseData.expenseName}
+                   onChange={handleChange} />
           </div>
           <div className="form-group">
-            <input name="amount" type="text" id="amtInput" className="form-control form-control-lg" placeholder="Amount"
-                   onChange={this.handleOnChange} />
+            <input name="amount" type="text" id="amtInput" className="form-control form-control-lg"
+                   placeholder="Amount"
+                   value={expenseData.amount}
+                   onChange={handleChange} />
           </div>
           <label className='radioOptions'>
-            <input type='radio' name='options' id="yesRadio" value='Yes' onChange={this.handleOnChange} />
+            <input type='radio' name='monthly' value='true'
+                   onChange={handleChange}
+                   checked={(expenseData.monthly === true)}
+              />
             Recurring
           </label>
           <label className='radioOptions'>
-            <input type='radio' name='options' id="noRadio" value='No' onChange={this.handleOnChange} />
+            <input type='radio' name='monthly' value='false'
+                   onChange={handleChange}
+            checked={(expenseData.monthly === false)}/>
             One Time
           </label><br />
 
-          <a id="closeButton" href="http://localhost:3000/home" target="_self">
+          <a id="closeButton" href="/home" target="_self">
             <Button> Close </Button>
           </a>
-          <Button id="addExp">Submit</Button>
+          <Button id="addExp"
+          onSubmit={handleSubmit}>Submit</Button>
 
         </Fragment>
 
@@ -48,4 +57,4 @@ class EditExpenseModal extends Component {
 }
 
 
-export default EditExpenseModal
+export default withCookies(EditExpenseModal)

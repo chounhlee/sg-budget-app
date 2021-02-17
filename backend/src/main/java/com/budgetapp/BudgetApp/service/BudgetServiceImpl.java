@@ -32,6 +32,11 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
+    public Expense getExpense(String username, int expenseId) {
+        return expenseRepository.getExpense(username, expenseId);
+    }
+
+    @Override
     public Expense addExpense(ExpenseAddRequest expenseAddRequest) {
         Expense expense = new Expense();
         expense.setUsername(expenseAddRequest.getUsername());

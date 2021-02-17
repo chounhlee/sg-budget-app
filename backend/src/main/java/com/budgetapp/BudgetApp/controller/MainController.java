@@ -55,6 +55,24 @@ public class MainController {
     }
 
     @CrossOrigin
+    @GetMapping("/expenses/{expenseId}")
+    public ResponseEntity<Object> getExpenseById(@RequestParam String username, @PathVariable int expenseId) {
+        // Use imaginary cookie (token, username)
+        // Ignore month for now
+        Expense expense = budgetService.getExpense(username, expenseId);
+
+        if (expense == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiMessage().setMessage("Invalid Request"));
+        }
+
+        // Create imaginary cookie
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(expense);
+    }
+
+
+    @CrossOrigin
     @PutMapping("/expenses")
     public ResponseEntity<Object> updateExpense(@RequestBody ExpenseUpdateRequest expenseUpdateRequest) {
         if (!budgetService.updateExpense(expenseUpdateRequest)) {

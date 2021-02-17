@@ -26,11 +26,11 @@ const ExpenseTableRow = ({expense}) => {
       <td>{(expense.monthly) ? "Yes" : ""}</td>
 
       <td className="pl-0 pr-0">
-        <a id="editExpense" href="http://localhost:3000/editExpense" target="_self">
+        <a id="editExpense" href={`expenses/${expense.id}/edit`} target="_self">
           <Button> Edit </Button>
         </a>
         <Button>Delete</Button>
-        <a id="allocateFunds" href="http://localhost:3000/allocate" target="_self">
+        <a id="allocateFunds" href={`expenses/${expense.id}/allocate`} target="_self">
           <Button> Allocate </Button>
         </a>
       </td>
@@ -60,7 +60,6 @@ class ExpenseTable extends Component {
   }
 
   render() {
-    const infos = this.props.infos;
 
     return (
       <Table striped bordered responsive>

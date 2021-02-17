@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface BudgetService {
     List<Expense> getExpenses(String username);
+    Expense getExpense(String username, int expenseId);
     Expense addExpense(ExpenseAddRequest expenseAddRequest);
     boolean updateExpense(ExpenseUpdateRequest expenseUpdateRequest);
     boolean deleteExpense(ExpenseDeleteRequest expenseDeleteRequest);
