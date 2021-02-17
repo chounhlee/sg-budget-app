@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Table, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
 
-
 const ExpenseTableHeader = () => {
   return (
     <tr>
@@ -12,31 +11,25 @@ const ExpenseTableHeader = () => {
       <th>Remaining</th>
       <th>Recurring</th>
       <th></th>
-      <th></th>
-      <th></th>
     </tr>
   );
 }
 
-const ExpenseTableRow = ({info}) => {
+const ExpenseTableRow = ({expense}) => {
   return (
 
     <tr>
-      <td>{info.expenses}</td>
-      <td>{info.amount}</td>
-      <td>{info.allocated}</td>
-      <td>{info.remaining}</td>
-      <td>{info.recurring}</td>
+      <td>{expense.expenseName}</td>
+      <td>${expense.amount}</td>
+      <td>${expense.allocated}</td>
+      <td>${expense.remaining}</td>
+      <td>{(expense.monthly) ? "Yes" : ""}</td>
 
       <td>
         <a id="editExpense" href="http://localhost:3000/editExpense" target="_self">
           <Button> Edit </Button>
         </a>
-      </td>
-
-
-      <td><Button>Delete</Button></td>
-      <td>
+        <Button>Delete</Button>
         <a id="allocateFunds" href="http://localhost:3000/allocate" target="_self">
           <Button> Allocate </Button>
         </a>
@@ -47,63 +40,26 @@ const ExpenseTableRow = ({info}) => {
 }
 
 class ExpenseTable extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   static defaultProps = {
-    infos: [
+    expenses: [
       {
-
-        "expenses": "Rent",
-        "amount": "",
-        "allocated": "",
-        "remaining": "",
-        "recurring": ""
-      },
-      {
-
-        "expenses": "Transportation",
-        "amount": "",
-        "allocated": "",
-        "remaining": "",
-        "recurring": ""
-      },
-      {
-
-        "expenses": "Student Loan",
-        "amount": "",
-        "allocated": "",
-        "remaining": "",
-        "recurring": ""
-      },
-      {
-
-        "expenses": "Summer Vacation",
-        "amount": "",
-        "allocated": "",
-        "remaining": "",
-        "recurring": ""
-      },
-      {
-
-        "expenses": "Credit Card",
-        "amount": "",
-        "allocated": "",
-        "remaining": "",
-        "recurring": ""
-      },
-      {
-
-        "expenses": "Hospital Bills",
-        "amount": "",
-        "allocated": "",
-        "remaining": "",
-        "recurring": ""
-      },
+        "id": 1,
+        "username": "",
+        "expenseName": "",
+        "amount": 0.00,
+        "allocated": 0.00,
+        "remaining": 0.00,
+        "dateUpdated": "",
+        "monthly": false
+      }
     ]
   }
 
   render() {
-
-
     const infos = this.props.infos;
 
     return (
@@ -111,13 +67,12 @@ class ExpenseTable extends Component {
         <thead>
         <ExpenseTableHeader />
         </thead>
+
         <tbody>
-        {infos.map((info, i) => {
+        {this.props.expenses.map((expense, i) => {
 
           return <ExpenseTableRow key={i}
-                                  info={info}
-          />
-
+                                  expense={expense} />
         })}
 
         </tbody>

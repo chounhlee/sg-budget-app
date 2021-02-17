@@ -8,23 +8,62 @@ import "../styles/home.css"
 import {Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const SERVICE_URL = "http://localhost:8080";
 
-class HomeForm extends React.Component {
-  constructor() {
-    super();
-
-    var today = new Date(),
-
-      date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
-
-    this.state = {
-      expenses: '',
-      amount: '',
-      recurring: '',
-      infos: [],
-      currentDate: date
+class HomeForm extends Component {
+  state = {
+    currentDate: "",
+    loading: false,
+    userData: {
+      "username": "user1",
+      "monthlyIncome": 5000.00,
+      "availableFund": 10000.00
+    },
+    expensesData: [
+      {
+        "id": 1,
+        "username": "user1",
+        "expenseName": "Payment",
+        "amount": 1000.00,
+        "allocated": 0.00,
+        "remaining": 1000.00,
+        "dateUpdated": "2020-02-01",
+        "monthly": true
+      }],
+    newExpenseData: {
+      "username": "",
+      "expenseName": "",
+      "isMonthly": false,
+      "amount": 0,
+      "month": ""
     }
+  }
+
+  constructor(props) {
+    super(props);
+
+    const today = new Date();
+    const date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+    this.state.currentDate = date;
   };
+
+  componentDidMount() {
+    this.loadExpensesData();
+  }
+
+  loadExpensesData() {
+    this.setState({loading: true});
+    fetch(`${SERVICE_URL}/expenses?username=user1&month=2020-02-01`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(data => data.json())
+      .then(data => this.setState(
+        {expensesData: data, loading: false}
+      ));
+  }
 
   handleFormSubmit = (e) => {
     e.preventDefault();
@@ -55,38 +94,38 @@ class HomeForm extends React.Component {
     })
   };
 
-
   render() {
     return (
       <Container fluid>
         <Navbar id="nav" bg="dark" variant="dark">Budget App
           <Nav className="links">
-            <Nav.Link href="http://localhost:3000/login"> Logout </Nav.Link>
+            <Nav.Link href="/login"> Logout </Nav.Link>
           </Nav>
         </Navbar>
         <Row>
           <Col>
             <h1 className="text-center">Budget Application</h1>
 
-            <h3>{this.state.currentDate}</h3>
-            <h3>Monthly Income:xxx
+            <h4>{this.state.currentDate}</h4>
 
+            <h4>Monthly Income: ${this.state.userData.monthlyIncome}
               <a id="editIncomeButton" href="http://localhost:3000/editIncome" target="_self">
                 <Button> Edit </Button>
               </a>
+            </h4>
 
-            </h3>
-            <h3>Available Fund:xxx</h3>
+            <h4>Available Fund: ${this.state.userData.availableFund}</h4>
           </Col>
         </Row>
         <hr />
         <Row>
-          <Col sm={8}>
-            <h2>My Expense Info</h2>
-            <ExpenseTable />
+          <Col sm={9}>
+            <h5>My Expenses</h5>
+            <ExpenseTable expenses={this.state.expensesData}  />
           </Col>
-          <Col sm={4}>
-            <h2>Add New Expense</h2>
+
+          <Col sm={3}>
+            <h5>Add New Expense</h5>
             <AddExpenseForm />
 
           </Col>
