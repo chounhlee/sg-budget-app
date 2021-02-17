@@ -3,7 +3,7 @@ import "../styles/register_page.css"
 import RegisterForm from "../components/RegisterForm"
 
 
-function RegisterPage() {
+function UserRegisterPage() {
   return (
     <div id="register_page" className="App-page">
       <h2 id="header">
@@ -16,4 +16,4 @@ function RegisterPage() {
   )
 }
 
-export default RegisterPage
+export default UserRegisterPage

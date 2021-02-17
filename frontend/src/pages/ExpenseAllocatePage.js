@@ -1,7 +1,7 @@
 import React from 'react'
 import AllocateModal from '../components/AllocateModal'
 
-function AllocatePage() {
+function ExpenseAllocatePage() {
   return (
     <div id="allocate_page" className="App-page">
       <h2 id="allocateHeader">
@@ -12,4 +12,4 @@ function AllocatePage() {
   )
 }
 
-export default AllocatePage
+export default ExpenseAllocatePage

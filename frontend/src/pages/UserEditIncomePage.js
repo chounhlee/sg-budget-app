@@ -1,7 +1,7 @@
 import React from 'react'
 import EditIncomeModal from '../components/EditIncomeModal'
 
-function EditIncome() {
+function UserEditIncomePage() {
   return (
     <div id="edit_income_page" className="App-page">
       <h2 id="incomeHeader">
@@ -12,4 +12,4 @@ function EditIncome() {
   )
 }
 
-export default EditIncome
+export default UserEditIncomePage
