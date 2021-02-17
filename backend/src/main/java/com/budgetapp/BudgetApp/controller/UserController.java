@@ -25,6 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<Object> registerUser(@RequestBody User userRawData) {
         User user = userService.register(userRawData);
@@ -38,6 +39,7 @@ public class UserController {
                 .body(new ApiMessage().setMessage(user.getUsername() + " created"));
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<Object> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
         User user = userService.login(userLoginRequest);
@@ -52,6 +54,7 @@ public class UserController {
                 .body(new ApiMessage().setMessage("Login success"));
     }
 
+    @CrossOrigin
     @GetMapping("/income")
     public ResponseEntity<Object> getIncomeAndFund(@RequestBody UserGetRequest userGetRequest) {
         UserIncomeAndExpenseDto userIncomeAndExpenseDto =
@@ -66,7 +69,7 @@ public class UserController {
                 .body(userIncomeAndExpenseDto);
     }
 
-
+    @CrossOrigin
     @PutMapping("/income")
     public ResponseEntity<Object> updateIncomeAndFund(@RequestBody UserUpdateIncomeAndFundRequest userUpdateIncomeAndFundRequest) {
         if (!userService.updateIncomeAndFund(userUpdateIncomeAndFundRequest)) {

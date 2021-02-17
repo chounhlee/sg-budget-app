@@ -22,11 +22,12 @@ public class MainController {
         this.userService = userService;
     }
 
+    @CrossOrigin
     @GetMapping("/expenses")
-    public ResponseEntity<Object> getExpenses(@RequestBody User userRawData) {
+    public ResponseEntity<Object> getExpenses(@RequestParam String username) {
         // Use imaginary cookie (token, username)
         // Ignore month for now
-        List<Expense> expenses = budgetService.getExpenses(userRawData.getUsername());
+        List<Expense> expenses = budgetService.getExpenses(username);
 
         if (expenses == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -38,9 +39,10 @@ public class MainController {
                 .body(expenses);
     }
 
+    @CrossOrigin
     @PostMapping("/expenses")
-    public ResponseEntity<Object> addExpense(@RequestBody ExpenseAddRequest addExpenseRequest) {
-        Expense expense = budgetService.addExpense(addExpenseRequest);
+    public ResponseEntity<Object> addExpense(@RequestBody ExpenseAddRequest expenseAddRequest) {
+        Expense expense = budgetService.addExpense(expenseAddRequest);
 
         if (expense == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -52,6 +54,7 @@ public class MainController {
                 .body(new ApiMessage().setMessage("Expense created successfully"));
     }
 
+    @CrossOrigin
     @PutMapping("/expenses")
     public ResponseEntity<Object> updateExpense(@RequestBody ExpenseUpdateRequest expenseUpdateRequest) {
         if (!budgetService.updateExpense(expenseUpdateRequest)) {
@@ -62,6 +65,7 @@ public class MainController {
                 .body(new ApiMessage().setMessage("Expense updated successfully"));
     }
 
+    @CrossOrigin
     @DeleteMapping("/expenses")
     public ResponseEntity<Object> deleteExpense(@RequestBody ExpenseDeleteRequest expenseDeleteRequest) {
         if (!budgetService.deleteExpense(expenseDeleteRequest)) {
@@ -73,6 +77,7 @@ public class MainController {
                 .body(new ApiMessage().setMessage("Expense delete successfully"));
     }
 
+    @CrossOrigin
     @PostMapping("/expenses/allocate")
     public ResponseEntity<Object> allocateToExpense(@RequestBody ExpenseAllocateRequest expenseAllocateRequest ) {
         if (!budgetService.allocateExpense(expenseAllocateRequest)) {
