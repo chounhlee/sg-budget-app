@@ -7,6 +7,7 @@ import "../styles/home.css"
 
 import {Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {withCookies} from "react-cookie";
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -15,23 +16,23 @@ class HomeForm extends Component {
     currentDate: "",
     loading: false,
     userData: {
-      "username": "user1",
-      "monthlyIncome": 5000.00,
-      "availableFund": 10000.00
+      "username": "",
+      "monthlyIncome": 0.00,
+      "availableFund": 0.00
     },
     expensesData: [
       {
-        "id": 1,
-        "username": "user1",
-        "expenseName": "Payment",
-        "amount": 1000.00,
+        "id": 0,
+        "username": "",
+        "expenseName": "",
+        "amount": 0.00,
         "allocated": 0.00,
-        "remaining": 1000.00,
+        "remaining": 0.00,
         "dateUpdated": "2020-02-01",
         "isMonthly": true
       }],
     newExpenseData: {
-      "username": "user1",
+      "username": "",
       "expenseName": "",
       "isMonthly": false,
       "amount": 0,
@@ -48,6 +49,10 @@ class HomeForm extends Component {
   };
 
   componentDidMount() {
+    let newExpenseData = this.state.newExpenseData;
+    newExpenseData.username = this.props.cookies.get("username");
+    this.setState({newExpenseData: newExpenseData});
+
     this.loadExpensesData();
   }
 
@@ -80,7 +85,7 @@ class HomeForm extends Component {
       .then(data => {
         this.setState(
           { newExpenseData: {
-              "username": "user1",
+              "username":  this.props.cookies.get("username"),
               "expenseName": "",
               "isMonthly": false,
               "amount": 0,
@@ -97,8 +102,7 @@ class HomeForm extends Component {
     let inputName = e.target.name;
     let inputValue = e.target.value;
     let expenseData = this.state.newExpenseData;
-    console.log(inputName);
-    console.log(inputValue);
+
     if (expenseData.hasOwnProperty(inputName)) {
       expenseData[inputName] = inputValue;
       this.setState({newExpenseData: expenseData})
@@ -106,6 +110,10 @@ class HomeForm extends Component {
 
     console.log(this.state.newExpenseData);
   };
+
+  handleDelete = () => {
+    this.loadExpensesData();
+  }
 
   render() {
     return (
@@ -134,7 +142,9 @@ class HomeForm extends Component {
         <Row>
           <Col sm={9}>
             <h5>My Expenses</h5>
-            <ExpenseTable expenses={this.state.expensesData} />
+            <ExpenseTable
+              expenses={this.state.expensesData}
+              handleDelete={this.handleDelete}/>
           </Col>
 
           <Col sm={3}>
@@ -145,14 +155,7 @@ class HomeForm extends Component {
               handleSubmit={this.handleFormSubmit} />
 
           </Col>
-          {/*<div className="App">*/}
-          {/*  <Table infos={this.state.expensesData} />*/}
-          {/*  <Form handleFormSubmit={this.handleFormSubmit}*/}
-          {/*        onChange={this.handleInputChange}*/}
-          {/*        newExpenseName={this.state.expenses}*/}
-          {/*        newAmount={this.state.amount}*/}
-          {/*        newRecurring={this.state.recurring} />*/}
-          {/*</div>*/}
+
         </Row>
 
       </Container>
@@ -160,4 +163,4 @@ class HomeForm extends Component {
   }
 }
 
-export default HomeForm;
+export default withCookies(HomeForm);

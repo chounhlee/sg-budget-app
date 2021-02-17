@@ -1,11 +1,6 @@
 import React, {Component} from 'react'
 import './App.css';
-import {Navbar, Nav, Button, Table, Form} from 'react-bootstrap'
-import ExpenseTable from './components/ExpenseTable'
-import AddExpenseForm from './components/AddExpenseForm'
 
-
-import {Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Switch, Route} from "react-router-dom"
 
