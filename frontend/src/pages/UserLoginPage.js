@@ -14,9 +14,6 @@ class LoginPage extends Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-  }
 
   handleChange = (e) => {
     const {name, value} = e.target

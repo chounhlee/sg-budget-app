@@ -52,8 +52,6 @@ class UserEditIncomePage extends Component {
   }
 
   handleSubmit = (e) => {
-    console.log("Editing Income");
-
     fetch(`${SERVICE_URL}/income`, {
       method: 'PUT',
       headers: {

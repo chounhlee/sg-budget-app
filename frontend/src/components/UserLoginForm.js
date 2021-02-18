@@ -14,14 +14,14 @@ class UserLoginForm extends React.Component {
 
         <Form.Group controlId="loginPassword">
           <Form.Label/>
-          <Form.Control type="text" placeholder="Password" name="password" onChange={handleChange} />
+          <Form.Control type="password" placeholder="Password" name="password" onChange={handleChange} />
         </Form.Group>
 
-        <a id="loginButton" href="/home" target="_self">
+        <a  href="/home" target="_self">
           <Button onClick={handleLogin}> Login </Button>
         </a>
 
-        <a id="registerButton" href="/register" target="_self">
+        <a  href="/register" target="_self">
           <Button> Register </Button>
         </a>
       </Form>
