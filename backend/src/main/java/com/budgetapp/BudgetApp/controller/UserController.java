@@ -75,9 +75,9 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping("/income")
-    public ResponseEntity<Object> getIncomeAndFund(@RequestBody UserGetRequest userGetRequest) {
+    public ResponseEntity<Object> getIncomeAndFund(@RequestParam String username) {
         UserIncomeAndExpenseDto userIncomeAndExpenseDto =
-                userService.getIncomeAndFund(userGetRequest.getUsername());
+                userService.getIncomeAndFund(username);
 
         if (userIncomeAndExpenseDto == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
