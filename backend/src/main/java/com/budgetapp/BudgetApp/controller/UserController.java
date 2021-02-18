@@ -41,6 +41,11 @@ public class UserController {
     @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<Object> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
+        if (userLoginRequest.getUsername().isEmpty() || userLoginRequest.getPassword().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiMessage().setMessage("Please input username or password"));
+        }
+
         User user = userService.login(userLoginRequest);
 
         if (user == null) {

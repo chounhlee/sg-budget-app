@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import "../styles/register_page.css"
 import UserRegisterForm from "../components/UserRegisterForm"
 import {withRouter} from "react-router";
+import ErrorsAlert from "../components/ErrorsAlert";
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -12,7 +13,8 @@ class UserRegisterPage extends Component {
       "userPassword": "",
       "monthlyIncome": 0.00,
       "availableFund": 0.00
-    }
+    },
+    errors: []
   }
 
   componentDidMount() {
@@ -20,6 +22,9 @@ class UserRegisterPage extends Component {
   }
 
   handleRegister = (e) => {
+
+    this.setState({errors: []});
+
     fetch(`${SERVICE_URL}/register`, {
       method: 'POST',
       headers: {
@@ -29,7 +34,13 @@ class UserRegisterPage extends Component {
     })
       .then(response => {
         if (response.status !== 201) {
-          throw new Error("Error register");
+          response.json().then((data) => {
+            let errors = this.state.errors;
+            errors.push({message: data.message});
+            this.setState({errors: errors});
+          })
+
+          throw new Error();
         }
       })
       .then(() => {
@@ -38,8 +49,7 @@ class UserRegisterPage extends Component {
 
       })
       .catch((error) => {
-        // Display appropriate message
-        console.log("error register");
+
       });
   }
 
@@ -64,13 +74,14 @@ class UserRegisterPage extends Component {
   render() {
     return (
       <div id="register_page" className="App-page">
-        <h2 id="header">
-          Register
+        <div id="header">
+          <h2>Register</h2>
+          <ErrorsAlert errors={this.state.errors} />
           <UserRegisterForm
             userRegisterData={this.state.userRegisterData}
             handleRegister={this.handleRegister}
             handleChange={this.handleChange} />
-        </h2>
+        </div>
       </div>
     )
 

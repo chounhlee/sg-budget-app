@@ -3,6 +3,8 @@ import "../styles/login_page.css"
 import UserLoginForm from '../components/UserLoginForm'
 import {withRouter} from "react-router";
 import {withCookies} from "react-cookie";
+import ErrorsAlert from "../components/ErrorsAlert";
+import {Col, Container, Row} from "react-bootstrap";
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -11,7 +13,9 @@ class LoginPage extends Component {
     userLoginData: {
       username: '',
       password: ''
-    }
+    },
+    errors: []
+
   }
 
 
@@ -27,6 +31,7 @@ class LoginPage extends Component {
 
   handleLogin = (e) => {
     e.preventDefault();
+    this.setState({errors: []});
 
     fetch(`${SERVICE_URL}/login`, {
       method: 'POST',
@@ -35,12 +40,19 @@ class LoginPage extends Component {
       },
       body: JSON.stringify(this.state.userLoginData)
     })
-      .then(response => {
+    .then(response => {
         if (!response.ok) {
-          throw new Error('Unable to login');
+          response.json().then((data) => {
+            let errors = this.state.errors;
+            errors.push({message: data.message});
+            this.setState({errors: errors});
+          })
+
+          throw new Error();
         }
+
       })
-      .then(data => {
+      .then(() => {
         this.props.cookies.set("username", this.state.userLoginData.username);
         this.props.history.push('/home');
       })
@@ -51,13 +63,16 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div id="login_page" className="App-page">
-        <h2 id="loginHeader">
-          Login
-          <UserLoginForm handleChange={this.handleChange}
-                         handleLogin={this.handleLogin} />
-        </h2>
-      </div>
+      <>
+        <div id="login_page" className="App-page">
+          <div id="loginHeader">
+            <h2>Login</h2>
+            <ErrorsAlert errors={this.state.errors} />
+            <UserLoginForm handleChange={this.handleChange}
+                           handleLogin={this.handleLogin} />
+          </div>
+        </div>
+      </>
     )
 
   }
