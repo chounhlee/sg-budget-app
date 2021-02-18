@@ -11,8 +11,7 @@ class HomePage extends Component {
   state = {
     currentDate: "",
     loading: false,
-    userData: {
-      "username": "",
+    userIncomeAndFundData: {
       "monthlyIncome": 0.00,
       "availableFund": 0.00
     },
@@ -49,14 +48,19 @@ class HomePage extends Component {
 
     if (!username) {
       this.props.history.push('/login');
-      console.log("empty username");
+      console.log("User is not logged in");
     } else {
       let newExpenseData = this.state.newExpenseData;
       newExpenseData.username = this.props.cookies.get("username");
       this.setState({newExpenseData: newExpenseData});
 
-      this.loadExpensesData();
+      this.loadHomePageData();
     }
+  }
+
+  loadHomePageData() {
+    this.loadExpensesData();
+    this.loadUserIncomeAndFundData();
   }
 
   loadExpensesData() {
@@ -74,11 +78,24 @@ class HomePage extends Component {
       ));
   }
 
+  loadUserIncomeAndFundData() {
+    this.setState({loading: true});
+    let username = this.props.cookies.get("username");
+    fetch(`${SERVICE_URL}/income?username=${username}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(data => data.json())
+      .then(data => this.setState(
+        {userIncomeAndFundData: data, loading: false}
+      ));
+  }
+
   handleFormSubmit = (e) => {
     console.log("Adding Expense");
     e.preventDefault();
-
-
 
     fetch(`${SERVICE_URL}/expenses`, {
       method: 'POST',
@@ -99,12 +116,11 @@ class HomePage extends Component {
             }, loading: false}
         )
 
-        this.loadExpensesData();
+        this.loadHomePageData();
       });
   };
 
   handleInputChange = (e) => {
-    console.log("New Expense data is changing");
     let inputName = e.target.name;
     let inputValue = e.target.value;
     let expenseData = this.state.newExpenseData;
@@ -113,12 +129,10 @@ class HomePage extends Component {
       expenseData[inputName] = inputValue;
       this.setState({newExpenseData: expenseData})
     }
-
-    console.log(this.state.newExpenseData);
   };
 
-  handleDelete = () => {
-    this.loadExpensesData();
+  handleExpenseDelete = () => {
+    this.loadHomePageData();
   }
 
   handleUserLogout = (e) => {
@@ -161,13 +175,13 @@ class HomePage extends Component {
 
               <h4>{this.state.currentDate}</h4>
 
-              <h4>Monthly Income: ${this.state.userData.monthlyIncome}
-                <a id="editIncomeButton" href="http://localhost:3000/editIncome" target="_self">
+              <h4>Monthly Income: ${this.state.userIncomeAndFundData.monthlyIncome}
+                <a id="editIncomeButton" href="/editIncome" target="_self">
                   <Button> Edit </Button>
                 </a>
               </h4>
 
-              <h4>Available Fund: ${this.state.userData.availableFund}</h4>
+              <h4>Available Fund: ${this.state.userIncomeAndFundData.availableFund}</h4>
             </Col>
           </Row>
           <hr />
@@ -176,7 +190,7 @@ class HomePage extends Component {
               <h5>My Expenses</h5>
               <ExpenseTable
                 expenses={this.state.expensesData}
-                handleDelete={this.handleDelete} />
+                handleDelete={this.handleExpenseDelete} />
             </Col>
 
             <Col sm={3}>
