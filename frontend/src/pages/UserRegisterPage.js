@@ -74,7 +74,7 @@ class UserRegisterPage extends Component {
   render() {
     return (
       <div id="register_page" className="App-page">
-        <div id="header">
+        <div id="register_form">
           <h2>Register</h2>
           <ErrorsAlert errors={this.state.errors} />
           <UserRegisterForm

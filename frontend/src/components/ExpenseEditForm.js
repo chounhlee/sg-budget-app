@@ -32,7 +32,7 @@ class ExpenseEditForm extends Component {
             />
             Recurring
           </label>
-          <label className='radioOptions'>
+          <label className='radioOptions ml-3'>
             <input type='radio' name='isMonthly'
                    value='false'
                    onChange={handleChange}

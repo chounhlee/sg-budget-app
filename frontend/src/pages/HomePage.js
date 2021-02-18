@@ -4,7 +4,7 @@ import ExpenseTable from "../components/ExpenseTable";
 import ExpenseAddForm from "../components/ExpenseAddForm";
 import {withCookies} from "react-cookie";
 import {withRouter} from "react-router";
-
+import "../styles/home.css";
 const SERVICE_URL = "http://localhost:8080";
 
 class HomePage extends Component {
@@ -39,7 +39,7 @@ class HomePage extends Component {
     super(props);
 
     const today = new Date();
-    const date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+    const date = (today.getMonth() + 1) + '-' + today.getFullYear();
     this.state.currentDate = date;
   };
 
@@ -164,15 +164,13 @@ class HomePage extends Component {
       <div id="home_page" className="App-page">
 
         <Container fluid>
-          <Navbar id="nav" bg="dark" variant="dark">Budget App
+          <Navbar id="nav" bg="dark" variant="dark" className="mb-5">Budget App
             <Nav className="links">
-              <Nav.Link onClick={this.handleUserLogout}> Logout </Nav.Link>
+              <Nav.Link id="logoutLink" onClick={this.handleUserLogout}> Logout </Nav.Link>
             </Nav>
           </Navbar>
-          <Row>
+          <Row className="text-left">
             <Col>
-              <h1 className="text-center">Budget Application</h1>
-
               <h4>{this.state.currentDate}</h4>
 
               <h4>Monthly Income: ${this.state.userIncomeAndFundData.monthlyIncome}

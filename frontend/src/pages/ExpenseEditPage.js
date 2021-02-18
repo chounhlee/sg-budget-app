@@ -104,14 +104,14 @@ class ExpenseEditPage extends Component {
   render() {
     return (
       <div id="edit_expense_page" className="App-page">
-        <h2 id="expenseHeader">
-          Edit Expense
+        <div id="expenseHeader">
+          <h2 className="mb-3">Edit Expense</h2>
           <ExpenseEditForm
             editExpenseData={this.state.editExpenseData}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit} />
 
-        </h2>
+        </div>
       </div>
     )
   }

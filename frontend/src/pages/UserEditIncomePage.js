@@ -70,13 +70,13 @@ class UserEditIncomePage extends Component {
   render() {
     return (
       <div id="edit_income_page" className="App-page">
-        <h2 id="incomeHeader">
-          Edit Income and Fund
+        <div id="incomeHeader">
+          <h2 className="mb-3">Edit Income and Fund</h2>
           <UserEditIncomeForm
             userIncomeAndFundData={this.state.userIncomeAndFundData}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit} />
-        </h2>
+        </div>
       </div>
     )
   }

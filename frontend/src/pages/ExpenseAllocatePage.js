@@ -56,8 +56,8 @@ class ExpenseAllocatePage extends Component {
     return (
       <>
         <div id="allocate_page" className="App-page">
-          <h2 id="allocateHeader">
-            Allocate Funds
+          <div id="allocateHeader">
+            <h2>Allocate Funds</h2>
             <main>
               <div className="form-group">
                 <input name="allocated" type="number" id="expNameInput" className="form-control form-control-lg"
@@ -73,7 +73,7 @@ class ExpenseAllocatePage extends Component {
               <Button id="addExp" onClick={this.handleAllocateSubmit}>Submit</Button>
 
             </main>
-          </h2>
+          </div>
         </div>
       </>
     )
