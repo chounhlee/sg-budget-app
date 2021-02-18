@@ -2,46 +2,28 @@ import React from 'react';
 import {Form, Button} from 'react-bootstrap'
 import "../styles/LoginForm.css"
 
-
 class UserLoginForm extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      username: '',
-      password: ''
-    }
-    this.handleOnChange = this.handleOnChange.bind(this)
-  }
-
-  handleOnChange(event) {
-    const {name, value} = event.target
-
-    this.setState({
-      [name]: value
-    })
-  }
-
   render() {
+    const {handleChange, handleLogin} = this.props;
     return (
       <Form>
         <Form.Group controlId="loginUsername">
-          <Form.Label></Form.Label>
-          <Form.Control type="text" placeholder="Username" name="username" onChange={this.handleOnChange} />
-        </Form.Group>
-        <Form.Group controlId="loginPassword">
-          <Form.Label></Form.Label>
-          <Form.Control type="text" placeholder="Password" name="password" onChange={this.handleOnChange} />
+          <Form.Label/>
+          <Form.Control type="text" placeholder="Username" name="username" onChange={handleChange} />
         </Form.Group>
 
-        <a id="loginButton" href="http://localhost:3000/home" target="_self">
-          <Button> Login </Button>
+        <Form.Group controlId="loginPassword">
+          <Form.Label/>
+          <Form.Control type="text" placeholder="Password" name="password" onChange={handleChange} />
+        </Form.Group>
+
+        <a id="loginButton" href="/home" target="_self">
+          <Button onClick={handleLogin}> Login </Button>
         </a>
 
-        <a id="registerButton" href="http://localhost:3000/register" target="_self">
+        <a id="registerButton" href="/register" target="_self">
           <Button> Register </Button>
         </a>
-
-
       </Form>
     )
   }

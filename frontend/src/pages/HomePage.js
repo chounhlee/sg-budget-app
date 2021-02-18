@@ -3,6 +3,7 @@ import {Button, Col, Container, Nav, Navbar, Row} from "react-bootstrap";
 import ExpenseTable from "../components/ExpenseTable";
 import ExpenseAddForm from "../components/ExpenseAddForm";
 import {withCookies} from "react-cookie";
+import {withRouter} from "react-router";
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -44,16 +45,24 @@ class HomePage extends Component {
   };
 
   componentDidMount() {
-    let newExpenseData = this.state.newExpenseData;
-    newExpenseData.username = this.props.cookies.get("username");
-    this.setState({newExpenseData: newExpenseData});
+    let username = this.props.cookies.get("username");
 
-    this.loadExpensesData();
+    if (!username) {
+      this.props.history.push('/login');
+      console.log("empty username");
+    } else {
+      let newExpenseData = this.state.newExpenseData;
+      newExpenseData.username = this.props.cookies.get("username");
+      this.setState({newExpenseData: newExpenseData});
+
+      this.loadExpensesData();
+    }
   }
 
   loadExpensesData() {
     this.setState({loading: true});
-    fetch(`${SERVICE_URL}/expenses?username=user1&month=2020-02-01`, {
+    let username = this.props.cookies.get("username");
+    fetch(`${SERVICE_URL}/expenses?username=${username}&month=2020-02-01`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -112,6 +121,30 @@ class HomePage extends Component {
     this.loadExpensesData();
   }
 
+  handleUserLogout = (e) => {
+    e.preventDefault();
+    console.log("logging out");
+    fetch(`${SERVICE_URL}/logout`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username: this.props.cookies.get("username")})
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Unable to logout');
+        }
+      })
+      .then(data => {
+        this.props.cookies.set("username", "");
+        this.props.history.push('/login');
+      })
+      .catch((error) => {
+        this.props.history.push('/home');
+      })
+  }
+
   render() {
     return (
       <div id="home_page" className="App-page">
@@ -119,7 +152,7 @@ class HomePage extends Component {
         <Container fluid>
           <Navbar id="nav" bg="dark" variant="dark">Budget App
             <Nav className="links">
-              <Nav.Link href="/login"> Logout </Nav.Link>
+              <Nav.Link onClick={this.handleUserLogout}> Logout </Nav.Link>
             </Nav>
           </Navbar>
           <Row>
@@ -163,4 +196,4 @@ class HomePage extends Component {
   }
 }
 
-export default withCookies(HomePage)
+export default withCookies(withRouter(HomePage))
