@@ -35,7 +35,7 @@ class ExpenseAllocatePage extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log("Allcoated success");
+        console.log("Allocate success");
         this.props.history.push('/home');
       });
   }
@@ -44,14 +44,11 @@ class ExpenseAllocatePage extends Component {
     let inputName = e.target.name;
     let inputValue = e.target.value;
     let allocateData = this.state.allocateData;
-
+    console.log(inputName);
     if (allocateData.hasOwnProperty(inputName)) {
-      allocateData[inputName] = inputValue;
+      allocateData[inputName] = parseFloat(parseFloat(inputValue).toFixed(2))
       this.setState({allocateData: allocateData})
     }
-    console.log("Allcoate value change!");
-    console.log(this.state.allocateData);
-
   }
 
   render() {
@@ -63,9 +60,10 @@ class ExpenseAllocatePage extends Component {
             Allocate Funds
             <main>
               <div className="form-group">
-                <input name="allocated" type="text" id="expNameInput" className="form-control form-control-lg"
+                <input name="allocated" type="number" id="expNameInput" className="form-control form-control-lg"
                        placeholder="Allocate Funds"
-                       onChange={this.handleAllocateChange} />
+                       onChange={this.handleAllocateChange}
+                       value={this.state.allocateData.allocated} />
               </div>
 
               <a id="closeButton" href="/home" target="_self">

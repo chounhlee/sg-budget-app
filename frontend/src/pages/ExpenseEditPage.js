@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import EditExpenseModal from '../components/ExpenseEditForm'
 import {withCookies} from "react-cookie";
 import {withRouter} from "react-router";
+import ExpenseEditForm from "../components/ExpenseEditForm";
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -49,21 +49,22 @@ class ExpenseEditPage extends Component {
   };
 
   handleChange = (e) => {
-    console.log("Expense data is changing");
     let inputName = e.target.name;
     let inputValue = e.target.value;
     let editExpenseData = this.state.editExpenseData;
 
     if (editExpenseData.hasOwnProperty(inputName)) {
+
       if (inputName === "isMonthly") {
         editExpenseData[inputName] = (inputValue === "true");
+      } else if(inputName === "amount"){
+        editExpenseData[inputName] = parseFloat(parseFloat(inputValue).toFixed(2));
       } else {
         editExpenseData[inputName] = inputValue;
       }
-      this.setState({editExpenseData: editExpenseData})
     }
-    console.log("Edit expense data: ");
-    console.log(this.state.editExpenseData);
+
+    this.setState({editExpenseData: editExpenseData})
   };
 
   componentDidMount() {
@@ -105,7 +106,7 @@ class ExpenseEditPage extends Component {
       <div id="edit_expense_page" className="App-page">
         <h2 id="expenseHeader">
           Edit Expense
-          <EditExpenseModal
+          <ExpenseEditForm
             editExpenseData={this.state.editExpenseData}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit} />

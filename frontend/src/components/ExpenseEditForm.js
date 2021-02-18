@@ -13,13 +13,13 @@ class ExpenseEditForm extends Component {
       <main>
         <Fragment>
           <div className="form-group">
-            <input name="expenseName" type="text" id="expNameInput" className="form-control form-control-lg"
+            <input name="expenseName" type="text" className="form-control form-control-lg"
                    placeholder="Expense name"
                    value={editExpenseData.expenseName}
                    onChange={handleChange} />
           </div>
           <div className="form-group">
-            <input name="amount" type="text" id="amtInput" className="form-control form-control-lg"
+            <input name="amount" type="number" className="form-control form-control-lg"
                    placeholder="Amount"
                    value={editExpenseData.amount}
                    onChange={handleChange} />
