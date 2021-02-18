@@ -1,6 +1,7 @@
 package com.budgetapp.BudgetApp.controller;
 
 import com.budgetapp.BudgetApp.controller.request.UserGetRequest;
+import com.budgetapp.BudgetApp.controller.request.UserLogoutRequest;
 import com.budgetapp.BudgetApp.controller.request.UserUpdateIncomeAndFundRequest;
 import com.budgetapp.BudgetApp.controller.request.UserLoginRequest;
 import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
@@ -58,10 +59,10 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/logout")
-    public ResponseEntity<Object> loginUser(@CookieValue("username") String usernameCookie) {
+    public ResponseEntity<Object> loginUser(@RequestBody UserLogoutRequest userLogoutRequest) {
 
 
-        if (usernameCookie.isEmpty()) {
+        if (userLogoutRequest.getUsername().isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ApiMessage().setMessage("Invalid username or password"));
         }
