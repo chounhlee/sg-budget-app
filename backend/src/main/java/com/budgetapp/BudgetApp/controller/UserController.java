@@ -7,6 +7,7 @@ import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
 import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.service.BudgetService;
 import com.budgetapp.BudgetApp.service.UserService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +50,26 @@ public class UserController {
                     .body(new ApiMessage().setMessage("Invalid username or password"));
         }
 
-        // Create imaginary cookie
-        return ResponseEntity.status(HttpStatus.OK)
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie","username="+user.getUsername());
+        return ResponseEntity.status(HttpStatus.OK).headers(headers)
                 .body(new ApiMessage().setMessage("Login success"));
+    }
+
+    @CrossOrigin
+    @PostMapping("/logout")
+    public ResponseEntity<Object> loginUser(@CookieValue("username") String usernameCookie) {
+
+
+        if (usernameCookie.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiMessage().setMessage("Invalid username or password"));
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie","username=");
+        return ResponseEntity.status(HttpStatus.OK).headers(headers)
+                .body(new ApiMessage().setMessage("Logout success"));
     }
 
     @CrossOrigin
