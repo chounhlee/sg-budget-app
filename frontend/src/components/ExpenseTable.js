@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Table, Button} from 'react-bootstrap'
+import {Table} from 'react-bootstrap'
 import ExpenseRow from "./ExpenseRow";
 
 const ExpenseTableHeader = () => {
@@ -16,9 +16,6 @@ const ExpenseTableHeader = () => {
 }
 
 class ExpenseTable extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   static defaultProps = {
     expenses: [

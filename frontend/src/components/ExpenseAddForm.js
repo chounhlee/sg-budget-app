@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, ButtonGroup, Form, ToggleButton} from 'react-bootstrap'
+import {Button,  Form} from 'react-bootstrap'
 import "../styles/editExpense.css"
 
-
-class AddExpenseForm extends React.Component {
+class ExpenseAddForm extends Component {
 
   render() {
     let {expenseData, handleChange, handleSubmit} = this.props;
@@ -49,4 +48,4 @@ class AddExpenseForm extends React.Component {
   }
 }
 
-export default AddExpenseForm
+export default ExpenseAddForm

@@ -1,6 +1,6 @@
 import React from "react"
 import "../styles/register_page.css"
-import RegisterForm from "../components/RegisterForm"
+import UserRegisterForm from "../components/UserRegisterForm"
 
 
 function UserRegisterPage() {
@@ -8,11 +8,9 @@ function UserRegisterPage() {
     <div id="register_page" className="App-page">
       <h2 id="header">
         Register
-        <RegisterForm></RegisterForm>
+        <UserRegisterForm></UserRegisterForm>
       </h2>
     </div>
-
-
   )
 }
 

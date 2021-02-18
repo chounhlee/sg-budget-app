@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import EditExpenseModal from '../components/EditExpenseModal'
+import EditExpenseModal from '../components/ExpenseEditForm'
 import {withCookies} from "react-cookie";
 import {withRouter} from "react-router";
 

@@ -1,13 +1,11 @@
 import React, {Fragment, Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
-import {Container, Row, Col} from 'react-bootstrap'
 import "../styles/editIncome.css"
 
-
-class EditIncomeModal extends Component {
-  constructor() {
-    super()
+class UserEditIncomeForm extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
       monthlyIncome: '',
       availableFunds: '',
@@ -42,4 +40,4 @@ class EditIncomeModal extends Component {
 }
 
 
-export default EditIncomeModal
+export default UserEditIncomeForm

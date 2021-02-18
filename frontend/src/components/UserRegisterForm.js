@@ -2,7 +2,7 @@ import React from 'react';
 import {Form, Button} from 'react-bootstrap'
 
 
-class RegisterForm extends React.Component {
+class UserRegisterForm extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -55,4 +55,4 @@ class RegisterForm extends React.Component {
   }
 }
 
-export default RegisterForm
+export default UserRegisterForm

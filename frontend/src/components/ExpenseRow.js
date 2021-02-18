@@ -13,10 +13,6 @@ class ExpenseRow extends Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-  }
-
   handleLocalDelete = (e) => {
     e.preventDefault();
 

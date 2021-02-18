@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from 'react'
-import AllocateModal from '../components/AllocateModal'
+import React, {Component} from 'react'
 import {Button} from "react-bootstrap";
 import {withCookies} from "react-cookie";
 import {withRouter} from "react-router";
+import "../styles/allocate.css"
 
 const SERVICE_URL = "http://localhost:8080";
 
@@ -14,10 +14,6 @@ class ExpenseAllocatePage extends Component {
       "allocated": 0,
       "month": "2020-02-01"
     }
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   componentDidMount() {
@@ -66,27 +62,24 @@ class ExpenseAllocatePage extends Component {
           <h2 id="allocateHeader">
             Allocate Funds
             <main>
-                <div className="form-group">
-                  <input name="allocated" type="text" id="expNameInput" className="form-control form-control-lg"
-                         placeholder="Allocate Funds"
-                        onChange={this.handleAllocateChange}/>
-                </div>
+              <div className="form-group">
+                <input name="allocated" type="text" id="expNameInput" className="form-control form-control-lg"
+                       placeholder="Allocate Funds"
+                       onChange={this.handleAllocateChange} />
+              </div>
 
-                <a id="closeButton" href="/home" target="_self">
-                  <Button> Close </Button>
-                </a>
+              <a id="closeButton" href="/home" target="_self">
+                <Button> Close </Button>
+              </a>
 
-                <Button id="addExp" onClick={this.handleAllocateSubmit}>Submit</Button>
+              <Button id="addExp" onClick={this.handleAllocateSubmit}>Submit</Button>
 
             </main>
           </h2>
         </div>
-
       </>
-
     )
   }
 }
-
 
 export default withRouter(withCookies(ExpenseAllocatePage))

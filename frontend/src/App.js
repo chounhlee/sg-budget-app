@@ -4,13 +4,10 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Switch, Route} from "react-router-dom"
 
-import './App.css'
 import RegisterPage from "./pages/UserRegisterPage";
 import LoginPage from './pages/UserLoginPage'
 import HomePage from './pages/HomePage';
-import EditExpense from './pages/ExpenseEditPage';
 import EditIncome from './pages/UserEditIncomePage';
-import AllocatePage from './pages/ExpenseAllocatePage';
 
 import { instanceOf } from 'prop-types';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
@@ -21,14 +18,6 @@ class App extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
-
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-
-  }
 
   render() {
     return (

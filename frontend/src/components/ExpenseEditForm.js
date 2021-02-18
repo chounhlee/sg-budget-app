@@ -4,11 +4,7 @@ import {Button} from 'react-bootstrap'
 import "../styles/editExpense.css"
 import {withCookies} from "react-cookie";
 
-
-class EditExpenseModal extends Component {
-  constructor(props) {
-    super(props)
-  }
+class ExpenseEditForm extends Component {
 
   render() {
     let {editExpenseData, handleChange, handleSubmit} = this.props;
@@ -32,7 +28,7 @@ class EditExpenseModal extends Component {
             <input type='radio' name='isMonthly'
                    value='true'
                    onChange={handleChange}
-                   checked={((editExpenseData.isMonthly+"") === "true")}
+                   checked={((editExpenseData.isMonthly + "") === "true")}
             />
             Recurring
           </label>
@@ -40,8 +36,8 @@ class EditExpenseModal extends Component {
             <input type='radio' name='isMonthly'
                    value='false'
                    onChange={handleChange}
-                   checked={((editExpenseData.isMonthly+"") === "false")}
-                    />
+                   checked={((editExpenseData.isMonthly + "") === "false")}
+            />
             One Time
           </label><br />
 
@@ -59,4 +55,4 @@ class EditExpenseModal extends Component {
 }
 
 
-export default withCookies(EditExpenseModal)
+export default withCookies(ExpenseEditForm)

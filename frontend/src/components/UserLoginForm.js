@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap'
 import "../styles/LoginForm.css"
 
 
-class LoginForm extends React.Component {
+class UserLoginForm extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -47,4 +47,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default LoginForm
+export default UserLoginForm
