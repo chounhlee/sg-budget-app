@@ -1,9 +1,6 @@
 package com.budgetapp.BudgetApp.controller;
 
-import com.budgetapp.BudgetApp.controller.request.UserGetRequest;
-import com.budgetapp.BudgetApp.controller.request.UserLogoutRequest;
-import com.budgetapp.BudgetApp.controller.request.UserUpdateIncomeAndFundRequest;
-import com.budgetapp.BudgetApp.controller.request.UserLoginRequest;
+import com.budgetapp.BudgetApp.controller.request.*;
 import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
 import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.service.BudgetService;
@@ -29,8 +26,8 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody User userRawData) {
-        User user = userService.register(userRawData);
+    public ResponseEntity<Object> registerUser(@RequestBody UserRegisterRequest userRegisterRequest) {
+        User user = userService.register(userRegisterRequest);
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)

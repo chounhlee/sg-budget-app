@@ -1,9 +1,6 @@
 package com.budgetapp.BudgetApp.service;
 
-import com.budgetapp.BudgetApp.controller.request.ExpenseAddRequest;
-import com.budgetapp.BudgetApp.controller.request.ExpenseAllocateRequest;
-import com.budgetapp.BudgetApp.controller.request.ExpenseDeleteRequest;
-import com.budgetapp.BudgetApp.controller.request.ExpenseUpdateRequest;
+import com.budgetapp.BudgetApp.controller.request.*;
 import com.budgetapp.BudgetApp.model.Expense;
 import com.budgetapp.BudgetApp.model.User;
 import com.budgetapp.BudgetApp.repository.ExpenseRepository;
@@ -52,13 +49,13 @@ public class BudgetServiceImplTest {
     }
 
     private void setupUserAndExpenseTable() {
-        User user = new User()
+        UserRegisterRequest userRegisterRequest = new UserRegisterRequest()
                 .setUsername("user1")
                 .setUserPassword("1234")
                 .setMonthlyIncome(new BigDecimal(5000))
                 .setAvailableFund(new BigDecimal(6000));
 
-        userService.register(user);
+        userService.register(userRegisterRequest);
 
         ExpenseAddRequest expenseAddRequest = new ExpenseAddRequest()
                 .setUsername(userRepository.getUserByUsername("user1").getUsername())

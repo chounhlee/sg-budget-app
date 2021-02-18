@@ -1,5 +1,6 @@
 package com.budgetapp.BudgetApp.service;
 
+import com.budgetapp.BudgetApp.controller.request.UserRegisterRequest;
 import com.budgetapp.BudgetApp.controller.request.UserUpdateIncomeAndFundRequest;
 import com.budgetapp.BudgetApp.controller.request.UserLoginRequest;
 import com.budgetapp.BudgetApp.dto.UserIncomeAndExpenseDto;
@@ -29,7 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(User user) {
+    public User register(UserRegisterRequest userRegisterRequest) {
+        User user = new User()
+                .setAvailableFund(userRegisterRequest.getAvailableFund())
+                .setMonthlyIncome(userRegisterRequest.getMonthlyIncome())
+                .setUsername(userRegisterRequest.getUsername())
+                .setUserPassword(userRegisterRequest.getUserPassword());
+        
         return userRepository.createUser(user);
     }
 
