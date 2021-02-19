@@ -20,13 +20,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(UserLoginRequest userLoginRequest) {
-        User user = userRepository.getUserByUsername(userLoginRequest.getUsername());
+        try {
+            User user = userRepository.getUserByUsername(userLoginRequest.getUsername());
 
-        if (!user.getUserPassword().equals(userLoginRequest.getPassword())) {
+            if (!user.getUserPassword().equals(userLoginRequest.getPassword()) || user.getUserPassword().isEmpty()) {
+                return null;
+            }
+
+            return user;
+        } catch (RuntimeException e) {
             return null;
         }
-
-        return user;
     }
 
     @Override

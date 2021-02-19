@@ -23,11 +23,16 @@ public class UserRepositoryDB implements UserRepository {
 
     @Override
     public User getUserByUsername(String username) {
-        final String GET_USER_BY_USERNAME =
-                "SELECT * FROM `user` " +
-                        " WHERE username = ?;";
+        try {
+            final String GET_USER_BY_USERNAME =
+                    "SELECT * FROM `user` " +
+                            " WHERE username = ?;";
 
-        return jdbc.queryForObject(GET_USER_BY_USERNAME, new UserMapper(), username);
+            return jdbc.queryForObject(GET_USER_BY_USERNAME, new UserMapper(), username);
+        } catch (DataAccessException e) {
+            return null;
+        }
+
     }
 
     @Override
