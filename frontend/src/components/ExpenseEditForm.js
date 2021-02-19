@@ -1,6 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button} from 'react-bootstrap'
+import {Button, Form} from 'react-bootstrap'
 import "../styles/editExpense.css"
 import {withCookies} from "react-cookie";
 
@@ -19,6 +19,7 @@ class ExpenseEditForm extends Component {
                    onChange={handleChange} />
           </div>
           <div className="form-group">
+            <Form.Label>Expense Amount</Form.Label>
             <input name="amount" type="number" className="form-control form-control-lg"
                    placeholder="Amount"
                    value={editExpenseData.amount}

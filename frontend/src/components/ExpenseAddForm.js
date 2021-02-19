@@ -12,7 +12,7 @@ class ExpenseAddForm extends Component {
       <div id="Form">
         <Form onSubmit={handleSubmit}>
           <label htmlFor="expenses">
-
+            <Form.Label>Expense Name</Form.Label>
             <input className="expInputs" id="expenses" placeholder="Expense Name"
                    type="text"
                    name="expenseName"
@@ -21,6 +21,7 @@ class ExpenseAddForm extends Component {
           </label><br />
 
           <label htmlFor="amount">
+            <Form.Label>Amount</Form.Label>
             <input className="expInputs" id="amount" placeholder="Amount" type="amount"
                    name="amount"
                    value={expenseData.amount}
@@ -35,6 +36,7 @@ class ExpenseAddForm extends Component {
           <label className='radioOptions'>
             <input type='radio' name='isMonthly'
                    value='false'
+                   className="ml-2"
                    onChange={handleChange} />One
             Time
           </label><br />

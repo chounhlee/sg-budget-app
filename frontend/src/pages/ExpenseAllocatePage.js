@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {withCookies} from "react-cookie";
 import {withRouter} from "react-router";
 import "../styles/allocate.css"
@@ -60,6 +60,7 @@ class ExpenseAllocatePage extends Component {
             <h2>Allocate Funds</h2>
             <main>
               <div className="form-group">
+                <Form.Label>Allocate Amount</Form.Label>
                 <input name="allocated" type="number" id="expNameInput" className="form-control form-control-lg"
                        placeholder="Allocate Funds"
                        onChange={this.handleAllocateChange}

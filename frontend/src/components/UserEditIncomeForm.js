@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button} from 'react-bootstrap'
+import {Button, Form} from 'react-bootstrap'
 import "../styles/editIncome.css"
 
 class UserEditIncomeForm extends Component {
@@ -10,12 +10,14 @@ class UserEditIncomeForm extends Component {
     return (
       <main>
           <div className="form-group">
+            <Form.Label>Monthly Income</Form.Label>
             <input name="monthlyIncome" type="number" className="form-control form-control-lg"
                    placeholder="Monthly Income"
                    onChange={handleChange}
                    value={userIncomeAndFundData.monthlyIncome} />
           </div>
           <div className="form-group">
+            <Form.Label>Available Fund</Form.Label>
             <input name="availableFund" type="number"  className="form-control form-control-lg"
                    placeholder="Available Funds"
                    onChange={handleChange}

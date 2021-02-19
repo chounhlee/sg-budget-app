@@ -24,14 +24,14 @@ class UserRegisterForm extends React.Component {
                         value={userRegisterData.userPassword}/>
         </Form.Group>
         <Form.Group controlId="registerMonthlyIncome">
-          <Form.Label />
+          <Form.Label>Monthly Income</Form.Label>
           <Form.Control type="number" placeholder="Monthly Income"
                         name="monthlyIncome"
                         onChange={handleChange}
                         value={userRegisterData.monthlyIncome}/>
         </Form.Group>
         <Form.Group controlId="registerAvailableFunds">
-          <Form.Label />
+          <Form.Label>Available Fund</Form.Label>
           <Form.Control type="number" placeholder="Available Fund"
                         name="availableFund"
                         onChange={handleChange}
